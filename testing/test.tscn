@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://b00rle03o40on"]
+
+[ext_resource type="Script" path="res://addons/modular_camera/modular_camera.gd" id="1_o3gqt"]
+[ext_resource type="Script" path="res://addons/modular_camera/camera_properties.gd" id="2_5ohae"]
+[ext_resource type="Script" path="res://addons/modular_camera/modifiers/shake.gd" id="3_rv4ns"]
+[ext_resource type="Script" path="res://addons/modular_camera/behaviours/static.gd" id="3_yinrw"]
+
+[sub_resource type="Resource" id="Resource_nhy62"]
+script = ExtResource("2_5ohae")
+distance = 2.175
+direction = 0.62
+height = 0.63
+lean = 0.34
+roll = -0.44
+picth = 0.0
+yaw = 0.0
+pan = Vector2(0, 0)
+local_pan = Vector2(0, 0)
+offset = Vector3(0, 0, 0)
+fov = 0.0
+
+[sub_resource type="Resource" id="Resource_miips"]
+script = ExtResource("3_rv4ns")
+_reset = false
+intensity = 0.1
+speed = 40.0
+decay = 1.0
+auto_delete = true
+horizontal_intensity = 1.0
+vertical_intenisty = 1.0
+horizontal_speed = 1.0
+horizontal_speed_random = 0.5
+vertical_speed = 1.0
+vertical_speed_random = 0.5
+
+[sub_resource type="Resource" id="Resource_7lwol"]
+script = ExtResource("3_yinrw")
+constant_properties = SubResource("Resource_nhy62")
+modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([SubResource("Resource_miips")])
+
+[node name="Node3D" type="Node3D"]
+
+[node name="target" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="target"]
+
+[node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target")]
+transform = Transform3D(0.933424, -0.181315, 0.309588, -0.0227456, 0.83126, 0.555419, -0.358054, -0.525483, 0.771793, 0.673354, 1.20804, 1.67865)
+current = true
+script = ExtResource("1_o3gqt")
+target = NodePath("../target")
+default_behaviour = SubResource("Resource_7lwol")
