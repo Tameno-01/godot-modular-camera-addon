@@ -110,10 +110,10 @@ func end():
 		behaviourA.behaviourB._interpolation_count -= 1
 	behaviourA._interpolation_count -= 1
 	if behaviourA._interpolation_count == 0:
-		behaviourA._stop()
+		behaviourA._base_stop()
 	behaviourB._interpolation_count -= 1
 	if behaviourB._interpolation_count == 0 and is_recursed:
-		behaviourB._stop()
+		behaviourB._base_stop()
 
 
 class AngleInterpolationManager:

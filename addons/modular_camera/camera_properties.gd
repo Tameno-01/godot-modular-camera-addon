@@ -2,7 +2,7 @@
 class_name CameraProperties
 extends Resource
 
-@export var distance: float = 0.0
+@export var distance: float = 1.0
 @export var direction: float = 0.0
 @export var height: float = 0.0
 @export var lean: float = 0.0
@@ -16,7 +16,7 @@ extends Resource
 
 
 func add(properties: CameraProperties):
-	distance += properties.distance
+	distance *= properties.distance
 	direction += properties.direction
 	height += properties.height
 	lean += properties.lean

@@ -23,6 +23,20 @@ extends CameraPropertySetter
 var _interpolation_count: int = 0.0 # FP
 
 
+func _start():
+	_on_start()
+	_output_properties.copy_from(properties)
+	for modifier in modifiers:
+		modifier._base_start()
+		_output_properties.add(modifier._output_properties)
+
+
+func _stop():
+	_on_stop()
+	for modifier in modifiers:
+		modifier._base_stop()
+
+
 func _base_process(delta: float):
 	_process(delta)
 	_output_properties.copy_from(properties)
@@ -32,8 +46,6 @@ func _base_process(delta: float):
 		if not modifier:
 			i += 1
 			continue
-		if not modifier._started:
-			modifier._start()
 		modifier._base_process(delta)
 		if modifier._pending_removal:
 			modifiers.pop_at(i)
@@ -47,3 +59,11 @@ func add_modifier(modifier: CameraModifier):
 		printerr("(CameraBehaviour) Tried to add modifier, but modifier has alredy been added.")
 		return
 	modifiers.append(modifier)
+
+
+func _on_start():
+	pass
+
+
+func _on_stop():
+	pass

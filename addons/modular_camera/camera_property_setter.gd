@@ -15,22 +15,28 @@ var _output_properties := CameraProperties.new() # FP
 var _started: bool = false # FP
 
 
-func _start(): # FP
+func _base_start(): # FP
 	if _started:
 		printerr("(CameraProperySetter) Trying to start behaviour/modifier, but it has aredy been started")
 		return
 	_started = true
-	if has_method(&"_on_start"):
-		call(&"_on_start")
+	_start()
 
 
-func _stop(): # FP
+func _base_stop(): # FP
 	if not _started:
 		printerr("(CameraProperySetter) Trying to stop behaviour/modifier, but it is already stopped")
 		return
 	_started = false
-	if has_method(&"_on_stop"):
-		call(&"_on_stop")
+	_stop()
+
+
+func _start():
+	pass
+
+
+func _stop():
+	pass
 
 
 func _base_process(delta: float):

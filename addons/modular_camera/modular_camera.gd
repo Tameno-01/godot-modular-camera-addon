@@ -37,7 +37,7 @@ enum reference_frame_modes {
 @export var default_ray_cast: CameraRayCastProperties
 
 
-var behaviours: Array[CameraBehaviour] = []
+var _behaviours: Array[CameraBehaviour] = [] # FP
 
 
 var _current_behaviour: CameraBehaviour
@@ -115,15 +115,15 @@ func _get_default_reference_frame() -> Basis: # FP
 
 
 func add_behaviour(behaviour: CameraBehaviour):
-	if behaviours.has(behaviour):
+	if _behaviours.has(behaviour):
 		printerr("(ModularCamera) Tried to add behaviour, but behaviour has alredy been added.")
 		return
-	behaviours.append(behaviour)
+	_behaviours.append(behaviour)
 	_update_behaviour()
 
 
 func remove_behaviour(behaviour: CameraBehaviour):
-	behaviours.erase(behaviour)
+	_behaviours.erase(behaviour)
 	_update_behaviour()
 
 
@@ -144,7 +144,7 @@ func _update_behaviour(force_ray_cast_update: bool = false):
 			_update_ray_cast()
 		return
 	if not new_behaviour._started:
-		new_behaviour._start()
+		new_behaviour._base_start()
 	if _current_behaviour and new_behaviour:
 		_interpolate_to(new_behaviour)
 	_current_behaviour = new_behaviour
@@ -197,11 +197,11 @@ func _update_ray_cast():
 
 
 func _get_current_behaviour():
-	if behaviours.size() == 0:
+	if _behaviours.size() == 0:
 		return default_behaviour
 	var max_priority: int = INT_MIN
 	var output_behaviour: CameraBehaviour
-	for i in behaviours:
+	for i in _behaviours:
 		if i.priority >= max_priority:
 			output_behaviour = i
 			max_priority = i.priority
@@ -237,7 +237,7 @@ func _interpolate_to(new_behaviour: CameraBehaviour):
 	new_interpolator.behaviourB = new_behaviour
 	new_interpolator.out_interpolation = new_behaviour.out_interpolation
 	new_interpolator.interpolation = _get_interpolation(new_interpolator.behaviourA, new_interpolator.behaviourB)
-	new_interpolator._start()
+	new_interpolator._base_start()
 	new_interpolator.connect(
 				&"finished",
 				_on_interpolator_finished,
