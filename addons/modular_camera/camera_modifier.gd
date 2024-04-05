@@ -21,7 +21,6 @@ func _stop():
 
 func remove():
 	_pending_removal = true
-	_base_stop()
 
 
 func _base_process(delta: float):

@@ -17,18 +17,24 @@ var _started: bool = false # FP
 
 func _base_start(): # FP
 	if _started:
-		printerr("(CameraProperySetter) Trying to start behaviour/modifier, but it has aredy been started")
-		return
+		ModularCameraUtils.print_detailed_err("Trying to start behaviour/modifier, but it has aredy been started.")
 	_started = true
 	_start()
 
 
 func _base_stop(): # FP
 	if not _started:
-		printerr("(CameraProperySetter) Trying to stop behaviour/modifier, but it is already stopped")
+		ModularCameraUtils.print_detailed_err("Trying to stop behaviour/modifier, but it is already stopped.")
 		return
 	_started = false
 	_stop()
+
+
+func _base_base_process(delta: float): # FP
+	if not _started:
+		ModularCameraUtils.print_detailed_err("Trying to process behaviour/modifier, but it is stopped. _started will be set to true.")
+		_started = true
+	_base_process(delta)
 
 
 func _start():

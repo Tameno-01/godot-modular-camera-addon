@@ -49,6 +49,8 @@ var _prev_raycast_movement_needed: float
 
 func _ready():
 	_update_behaviour(true)
+	for modifier in modifiers:
+		modifier._base_start()
 
 
 func _process(delta: float):
@@ -56,10 +58,10 @@ func _process(delta: float):
 		return
 	var properties: CameraProperties
 	if _interpolator:
-		_interpolator._base_process(delta)
+		_interpolator._base_base_process(delta)
 		properties = _interpolator._output_properties
 	else:
-		_current_behaviour._base_process(delta)
+		_current_behaviour._base_base_process(delta)
 		properties = _current_behaviour._output_properties
 	var target: Vector3 = _get_target()
 	var reference_frame: Basis = _get_reference_frame()
@@ -84,7 +86,7 @@ func _get_default_target() -> Vector3: # FP
 				return target_node.global_position
 			else:
 				if not Engine.is_editor_hint():
-					printerr("(ModularCamera) Target node instance not valid.")
+					ModularCameraUtils.print_detailed_err("Target node instance not valid.")
 				return Vector3.ZERO
 		target_modes.POSITION:
 			return target_position
@@ -107,7 +109,7 @@ func _get_default_reference_frame() -> Basis: # FP
 				return reference_frame_node.global_transform.basis
 			else:
 				if not Engine.is_editor_hint():
-					printerr("(ModularCamera) Reference frame node instance not valid.")
+					ModularCameraUtils.print_detailed_err("Reference frame node instance not valid.")
 				return Basis.IDENTITY
 		reference_frame_modes.BASIS:
 			return reference_frame_basis
@@ -116,7 +118,7 @@ func _get_default_reference_frame() -> Basis: # FP
 
 func add_behaviour(behaviour: CameraBehaviour):
 	if _behaviours.has(behaviour):
-		printerr("(ModularCamera) Tried to add behaviour, but behaviour has alredy been added.")
+		ModularCameraUtils.print_detailed_err("Tried to add behaviour, but behaviour has alredy been added.")
 		return
 	_behaviours.append(behaviour)
 	_update_behaviour()
@@ -129,24 +131,29 @@ func remove_behaviour(behaviour: CameraBehaviour):
 
 func add_modifier(modifier: CameraModifier):
 	if modifiers.has(modifier):
-		printerr("(ModularCamera) Tried to add modifier, but modifier has alredy been added.")
+		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
 		return
 	modifiers.append(modifier)
+	modifier._base_start()
 
 
 func _update_behaviour(force_ray_cast_update: bool = false):
 	var new_behaviour: CameraBehaviour = _get_current_behaviour()
-	if not new_behaviour:
-		_update_ray_cast()
-		return
 	if new_behaviour == _current_behaviour:
 		if force_ray_cast_update:
 			_update_ray_cast()
 		return
-	if not new_behaviour._started:
-		new_behaviour._base_start()
 	if _current_behaviour and new_behaviour:
 		_interpolate_to(new_behaviour)
+	else:
+		if _current_behaviour:
+			_current_behaviour._base_stop()
+		if new_behaviour:
+			new_behaviour._base_start()
+	if _current_behaviour:
+		_current_behaviour._usage_count -= 1
+	if new_behaviour:
+		new_behaviour._usage_count += 1
 	_current_behaviour = new_behaviour
 	_update_ray_cast()
 
@@ -157,25 +164,6 @@ func _update_ray_cast():
 			_shape_cast.queue_free()
 			_shape_cast = null
 		return
-	#var prev_shape_cast = _shape_cast
-	#if _current_behaviour.override_raycast:
-		#_ray_cast_properties = _current_behaviour.raycast_override
-	#else:
-		#_ray_cast_properties = default_ray_cast
-	#if _ray_cast_properties:
-		#if not _shape_cast:
-			#_shape_cast = ShapeCast3D.new()
-			#_shape_cast.shape = SphereShape3D.new()
-			#_shape_cast.shape.radius = _ray_cast_properties.margin_radius
-			#_shape_cast.enabled = false
-			#_shape_cast.collision_mask = _ray_cast_properties.colision_mask
-			#add_child(_shape_cast)
-	#else:
-		#if _shape_cast:
-			#_shape_cast.queue_free()
-			#_shape_cast = null
-	#if _shape_cast != prev_shape_cast:
-		#_prev_raycast_movement_needed = 0.0
 	var prev_ray_cast_properties = _ray_cast_properties
 	if _current_behaviour.override_raycast:
 		_ray_cast_properties = _current_behaviour.raycast_override
@@ -215,11 +203,9 @@ func _handle_modifiers(properties: CameraProperties, delta: float):
 		if not modifier:
 			i += 1
 			continue
-		if not modifier._started:
-			modifier._start()
-		modifier._base_process(delta)
+		modifier._base_base_process(delta)
 		if modifier._pending_removal:
-			modifier._stop()
+			modifier._base_stop()
 			modifiers.pop_at(i)
 		else:
 			properties.add(modifier._output_properties)
@@ -231,7 +217,6 @@ func _interpolate_to(new_behaviour: CameraBehaviour):
 	new_interpolator.camera = self
 	if _interpolator:
 		new_interpolator.behaviourA = _interpolator
-		_interpolator.is_recursed = true
 	else:
 		new_interpolator.behaviourA = _current_behaviour
 	new_interpolator.behaviourB = new_behaviour
@@ -317,7 +302,5 @@ func _update_properties(target: Vector3, reference_frame, current_properties: Ca
 
 
 func _set_default_behaviour(value: CameraBehaviour):
-	if default_behaviour == value:
-		return
 	default_behaviour = value
 	_update_behaviour()

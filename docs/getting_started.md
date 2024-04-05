@@ -61,3 +61,6 @@ If you followed the quick start section, do the following:
 As you can see, what you're messing around with *adds on* to what the behaviour is doing, this is the core principle of how modifiers work.
 
 The biggest use case for modifiers is camera shake, in fact, try it! Add a `CameraModifierShake` to the `modifiers` list.
+
+### Why does it matter if i do it on the camera or on the behaviour?
+Any modifiers that are on behaviours will stop being applied once the camera switches to another behaviour, whereas if you do it on the camera, the modifier will always be applied.

@@ -1,4 +1,3 @@
-@tool
 class_name CameraBehaviourInterpolator
 extends CameraBehaviour
 
@@ -20,7 +19,6 @@ var behaviourA: CameraBehaviour
 var behaviourB: CameraBehaviour
 var interpolation: CameraInterpolation
 var camera: ModularCamera
-var is_recursed: bool = false
 
 
 var _time: float
@@ -38,10 +36,10 @@ func _init():
 
 func _on_start():
 	_time = 0.0
-	behaviourA._interpolation_count += 1
-	behaviourB._interpolation_count += 1
-	if behaviourA is CameraBehaviourInterpolator:
-		behaviourA.behaviourB._interpolation_count += 1
+	behaviourA._usage_count += 1
+	behaviourB._usage_count += 1
+	if behaviourB._usage_count == 1:
+		behaviourB._base_start()
 	for property in ANGULAR_PROPERTIES:
 		var interpolation_manager: AngleInterpolationManager = AngleInterpolationManager.new()
 		interpolation_manager.start(
@@ -55,8 +53,8 @@ func _process(delta: float):
 	_time += delta
 	var t: float = interpolation.get_t(_time)
 	var props := CameraProperties.new()
-	behaviourA._base_process(delta)
-	behaviourB._base_process(delta)
+	behaviourA._base_base_process(delta)
+	behaviourB._base_base_process(delta)
 	props.copy_from(behaviourA._output_properties)
 	props.interpolate_to(behaviourB._output_properties, t)
 	for property in ANGULAR_PROPERTIES:
@@ -102,18 +100,16 @@ func _process(delta: float):
 func _on_interpolator_a_finished():
 	behaviourA.end()
 	behaviourA = behaviourA.behaviourB
+	behaviourA._usage_count += 1
 
 
 func end():
 	if behaviourA is CameraBehaviourInterpolator:
 		behaviourA.end()
-		behaviourA.behaviourB._interpolation_count -= 1
-	behaviourA._interpolation_count -= 1
-	if behaviourA._interpolation_count == 0:
+	behaviourA._usage_count -= 1
+	behaviourB._usage_count -= 1
+	if behaviourA._usage_count == 0:
 		behaviourA._base_stop()
-	behaviourB._interpolation_count -= 1
-	if behaviourB._interpolation_count == 0 and is_recursed:
-		behaviourB._base_stop()
 
 
 class AngleInterpolationManager:

@@ -20,7 +20,7 @@ extends CameraPropertySetter
 @export var raycast_override: CameraRayCastProperties
 
 
-var _interpolation_count: int = 0.0 # FP
+var _usage_count: int = 0 # FP
 
 
 func _start():
@@ -46,7 +46,7 @@ func _base_process(delta: float):
 		if not modifier:
 			i += 1
 			continue
-		modifier._base_process(delta)
+		modifier._base_base_process(delta)
 		if modifier._pending_removal:
 			modifiers.pop_at(i)
 		else:
@@ -56,7 +56,7 @@ func _base_process(delta: float):
 
 func add_modifier(modifier: CameraModifier):
 	if modifiers.has(modifier):
-		printerr("(CameraBehaviour) Tried to add modifier, but modifier has alredy been added.")
+		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
 		return
 	modifiers.append(modifier)
 	if _started:
