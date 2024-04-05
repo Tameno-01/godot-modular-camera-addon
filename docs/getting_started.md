@@ -45,8 +45,14 @@ Yes, there's no `set_behaviour`. instead, there's a list of all behaviours the c
 \*The `priority` of the `default_behaviour` is ignored, everything has a higher property than the `default_behaviour`.
 
 ### Why bother with the priority thing??
-Imagine a game where you can pick up weapons and get in a vehicles, and you want different camera behaviour for when you're holding a ranged weapon (maybe an over the shoulder perspective for better aiming), and another different behaviour for when you're in a vehicle. Now imagine you get out of a vehicle, you just switch the camera to the default behaviour, right? wrong. If you were holding a weapon, you'd need to have switched to the ranged weapon behaviour. So now you need some sort of centralized system to keep track of what camera behaviour to switch to.
+Imagine a game where you can pick up weapons and get in a vehicles, and you want different camera behaviour for when you're holding a ranged weapon (maybe an over the shoulder perspective for better aiming), and another different behaviour for when you're in a vehicle.
+
+Now imagine you get out of a vehicle, you just switch the camera to the default behaviour, right? wrong. If you were holding a weapon, you'd need to have switched to the ranged weapon behaviour.
+
+So now you need some sort of centralized system to keep track of what camera behaviour to switch to.
+
 With a priority system, you simply assign a higher priority to the vehicle behaviour, have all the systems individually add and remove their behaviours from the behaviour list, and you're done. No centralized system needed, everything gets handled automatically.
+
 This example might seem trivial, but in games with a lot of behaviours the camera can be in, you can end up having a very messy centralized system, so removing the need from it *is* useful (...hopefully).
 
 ## Modifiers
@@ -64,3 +70,22 @@ The biggest use case for modifiers is camera shake, in fact, try it! Add a `Came
 
 ### Why does it matter if i do it on the camera or on the behaviour?
 Any modifiers that are on behaviours will stop being applied once the camera switches to another behaviour, whereas if you do it on the camera, the modifier will always be applied.
+
+## Interpolation
+If you're been following along, try settings the `ModularCamera`'s `Default Interpolation` to a new `CameraInterpolation`.
+Now, every time the camera switches behaviours, it will smoothly interpolate between them.
+
+You can also assign interpolations to behaviours, so if you, for example, want a fast transition when zooming in and out with your weapon, but a slow transition when getting into a vehicle, you can do that by setting the `In Interpolation` and `Out Interpolation` of their respective behaviours.
+
+Now, let's say you have behaviors A and B, and you interpolate between them, will you see behaviour A's `Out Interpolation` or behaviour B's `In Interpolation`? You can control this by setting the `CameraInterpolation`'s `Priority`. The interpolation with the **highest** priority will be chosen\*\*.
+
+\* Ties are solved by picking the `In Interpolation`.
+
+\* The `Priority` of the `ModularCamera`'s `Default Interpolation` is ignored. Everything has a higher priority than it.
+
+## Important notes
+There are a few... let's say... rules you should always follow:
+
+1. **Individual behaviours and modifiers should only be in one place at a time**. If you have to cameras, make sure they us different instances of behaviours, and make sure you never put the same instance of a modifier on tow behaviours at once.
+2. **Do not use `CameraBehaviourInterpolator`**, I would hide it if i could. It's an internal class used for handling interpolation.
+3. **Anything that isn't documented should not be used.** Same goes for anything tht starts with an underscore.
