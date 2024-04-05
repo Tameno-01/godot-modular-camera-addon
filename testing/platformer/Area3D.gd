@@ -1,7 +1,7 @@
 extends Area3D
 
 
-@export var cam: ModularCamera
+@export var camera: ModularCamera
 @export var player: CollisionObject3D
 @export var behaviour: CameraBehaviour
 
@@ -12,9 +12,9 @@ func _ready():
 
 func _on_body_entered(body):
 	if body == player:
-		cam.add_behaviour(behaviour)
+		camera.add_behaviour(behaviour)
 
 
 func _on_body_exited(body):
 	if body == player:
-		cam.remove_behaviour(behaviour)
+		camera.remove_behaviour(behaviour)

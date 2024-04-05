@@ -59,6 +59,8 @@ func add_modifier(modifier: CameraModifier):
 		printerr("(CameraBehaviour) Tried to add modifier, but modifier has alredy been added.")
 		return
 	modifiers.append(modifier)
+	if _started:
+		modifier._base_start()
 
 
 func _on_start():
