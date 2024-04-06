@@ -11,5 +11,5 @@
 
 ## Modifiers
 
-- [CameraModifier](behaviours/camera_behaviour.md) (Base class)
+- [CameraModifier](modifiers/camera_modifier.md) (Base class)
 - [CameraModifierStatic](modifiers/camera_modifier_static.md)
