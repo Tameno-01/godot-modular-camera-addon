@@ -48,7 +48,9 @@ func _base_process(delta: float):
 			continue
 		modifier._base_base_process(delta)
 		if modifier._pending_removal:
+			modifier._base_stop()
 			modifiers.pop_at(i)
+			modifier._pending_removal = false
 		else:
 			_output_properties.add(modifier._output_properties)
 			i += 1
@@ -61,6 +63,15 @@ func add_modifier(modifier: CameraModifier):
 	modifiers.append(modifier)
 	if _started:
 		modifier._base_start()
+
+
+func remove_modifier(modifier: CameraBehaviour):
+	if not modifiers.has(modifier):
+		ModularCameraUtils.print_detailed_err("Tried to remove modifier, but modifier is not in modifiers list.")
+		return
+	modifiers.erase(modifier)
+	if _started:
+		modifier._base_stop()
 
 
 func _on_start():

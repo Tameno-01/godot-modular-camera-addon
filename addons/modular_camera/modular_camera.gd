@@ -70,6 +70,38 @@ func _process(delta: float):
 	_do_ray_cast(target, delta)
 
 
+func add_behaviour(behaviour: CameraBehaviour):
+	if _behaviours.has(behaviour):
+		ModularCameraUtils.print_detailed_err("Tried to add behaviour, but behaviour has alredy been added.")
+		return
+	_behaviours.append(behaviour)
+	_update_behaviour()
+
+
+func remove_behaviour(behaviour: CameraBehaviour):
+	if not _behaviours.has(behaviour):
+		ModularCameraUtils.print_detailed_err("Tried to remove behaviour, but behaviour is not in behaviours list.")
+		return
+	_behaviours.erase(behaviour)
+	_update_behaviour()
+
+
+func add_modifier(modifier: CameraModifier):
+	if modifiers.has(modifier):
+		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
+		return
+	modifiers.append(modifier)
+	modifier._base_start()
+
+
+func remove_modifier(modifier: CameraBehaviour):
+	if not modifiers.has(modifier):
+		ModularCameraUtils.print_detailed_err("Tried to remove modifier, but modifier is not in modifiers list.")
+		return
+	modifiers.erase(modifier)
+	modifier._base_stop()
+
+
 func _get_target() -> Vector3:
 	if _interpolator:
 		return _interpolator.target_override
@@ -114,27 +146,6 @@ func _get_default_reference_frame() -> Basis: # FP
 		reference_frame_modes.BASIS:
 			return reference_frame_basis
 	return Basis.IDENTITY
-
-
-func add_behaviour(behaviour: CameraBehaviour):
-	if _behaviours.has(behaviour):
-		ModularCameraUtils.print_detailed_err("Tried to add behaviour, but behaviour has alredy been added.")
-		return
-	_behaviours.append(behaviour)
-	_update_behaviour()
-
-
-func remove_behaviour(behaviour: CameraBehaviour):
-	_behaviours.erase(behaviour)
-	_update_behaviour()
-
-
-func add_modifier(modifier: CameraModifier):
-	if modifiers.has(modifier):
-		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
-		return
-	modifiers.append(modifier)
-	modifier._base_start()
 
 
 func _update_behaviour(force_ray_cast_update: bool = false):
@@ -207,6 +218,7 @@ func _handle_modifiers(properties: CameraProperties, delta: float):
 		if modifier._pending_removal:
 			modifier._base_stop()
 			modifiers.pop_at(i)
+			modifier._pending_removal = false
 		else:
 			properties.add(modifier._output_properties)
 			i += 1
