@@ -11,5 +11,7 @@ Making good camera for a game is complicated and can get very convoluted, this a
 This shouldn't be a problem since there's usually only 1 camera in a game at all times.
 
 ## Documentation
+
 - [Overview](docs/overview.md)
-- [Classes](docs/classes/classes.md)
+
+You can find class references in the editor via the "search help" button

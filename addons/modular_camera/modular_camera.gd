@@ -1,3 +1,5 @@
+## An advanced camera that can follow behaviours, interpolate between them and have modifiers applied to it.
+## It also has a built in ray cast to avoid going inside walls and other geometry.
 @tool
 class_name ModularCamera
 extends Camera3D
@@ -22,18 +24,31 @@ enum reference_frame_modes {
 
 
 @export_category("Targeting")
+## Determines wether the camera uses a target_node or target_position as its target.
 @export var target_mode: target_modes = target_modes.NODE
+## The node the camera will target, only used if target_mode is set to NODE.
 @export var target_node: Node3D
+## The position the camera will target, only used if target_mode is set to POSITION.
 @export var target_position: Vector3
+## Determines wether the camera uses a reference_frame_node or reference_frame_basis as its reference frame.
 @export var reference_frame_mode: reference_frame_modes = reference_frame_modes.BASIS
+## The node the camera will use as a reference frame, only used if reference_frame_mode is set to NODE.
 @export var reference_frame_node: Node3D
+## The reference frame of the camera, only used if reference_frame_mode is set to BASIS.
 @export var reference_frame_basis := Basis.IDENTITY
+
 @export_category("Behaviour")
+## The behaviour the camera follows when the behaviours list is empty.
 @export var default_behaviour: CameraBehaviour : set=_set_default_behaviour
+## The list of modifiers which are applied to the camera.
 @export var modifiers: Array[CameraModifier] = []
+
 @export_category("Misc")
+## The base fov of the camera.
 @export var base_fov: float = 75.0
+## The interpolation that is used when interpolating between an behaviour that doesn't have an out_interpolation and one that doesn't have an in_interpolation.
 @export var default_interpolation: CameraInterpolation
+## The settings for the ray cast that is performed to prevent the camera from crashing into walls which are used when the current behaviour has override_raycast set to false.
 @export var default_ray_cast: CameraRayCastProperties
 
 
@@ -69,7 +84,7 @@ func _process(delta: float):
 	_update_properties(target, reference_frame, properties)
 	_do_ray_cast(target, delta)
 
-
+## Adds a behaviour to the behaviours list.
 func add_behaviour(behaviour: CameraBehaviour):
 	if _behaviours.has(behaviour):
 		ModularCameraUtils.print_detailed_err("Tried to add behaviour, but behaviour has alredy been added.")
@@ -77,7 +92,7 @@ func add_behaviour(behaviour: CameraBehaviour):
 	_behaviours.append(behaviour)
 	_update_behaviour()
 
-
+## Removes a behaviour from the behaviours list.
 func remove_behaviour(behaviour: CameraBehaviour):
 	if not _behaviours.has(behaviour):
 		ModularCameraUtils.print_detailed_err("Tried to remove behaviour, but behaviour is not in behaviours list.")
@@ -85,7 +100,7 @@ func remove_behaviour(behaviour: CameraBehaviour):
 	_behaviours.erase(behaviour)
 	_update_behaviour()
 
-
+## Adds a modifier to the modifiers list.
 func add_modifier(modifier: CameraModifier):
 	if modifiers.has(modifier):
 		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
@@ -93,7 +108,7 @@ func add_modifier(modifier: CameraModifier):
 	modifiers.append(modifier)
 	modifier._base_start()
 
-
+## Removes a modifier from the modifiers list.
 func remove_modifier(modifier: CameraBehaviour):
 	if not modifiers.has(modifier):
 		ModularCameraUtils.print_detailed_err("Tried to remove modifier, but modifier is not in modifiers list.")
