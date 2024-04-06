@@ -215,7 +215,7 @@ mesh = SubResource("CapsuleMesh_fm3vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
-transform = Transform3D(-0.201691, 0.0977818, -0.974556, 0, 0.995004, 0.0998334, 0.979449, 0.0201355, -0.200683, -1.9589, 1.7, -0.403382)
+transform = Transform3D(0.195008, -0.0979168, 0.975902, 0, 0.995004, 0.0998334, -0.980802, -0.0194683, 0.194034, 1.9616, 1.7, 0.390016)
 script = ExtResource("4_hsbit")
 target_node = NodePath("../player/camera_target")
 default_behaviour = SubResource("Resource_1oqn2")

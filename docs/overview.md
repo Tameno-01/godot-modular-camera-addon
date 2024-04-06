@@ -91,11 +91,17 @@ Now, let's say you have behaviors A and B, and you interpolate between them, wil
 
 \*The `Priority` of the `ModularCamera`'s `Default Interpolation` is ignored. Everything has a higher priority than it.
 
+## The reference frame
+
+You only need to touch the reference frame if you're making a game with no defined up direction, if you're not making a game like super mario galaxy or a space game in general where up can be anywhere, don't bother reading this.
+
+The reference frame is essentially the rotation everything is relative to, the position of the camera gets multiplied by the reference frame matrix after all the behaviour and modifier calculations are done.
+
 ## Important notes
 
 There are a few... let's say... rules you should always follow:
 
-1. **Individual behaviours and modifiers should only be in one place at a time**. If you have to cameras, make sure they us different instances of behaviours, and make sure you never put the same instance of a modifier on tow behaviours at once.
+1. **Individual behaviours and modifiers should only be in one place at a time**. If you have to cameras, make sure they use different instances of behaviours, and make sure you never put the same instance of a modifier on two behaviours at once.
 2. **Do not use `CameraBehaviourInterpolator`**, I would hide it if i could. It's an internal class used for handling interpolation.
 3. **Anything that isn't documented should not be used.**
 
