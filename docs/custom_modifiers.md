@@ -1,5 +1,7 @@
 ## Custom Modifiers
 
+To create a new modifier, make a script file anywhere that extends `CameraModifier`
+
 ```gdscript
 @tool
 class_name NameOfYourModifier
