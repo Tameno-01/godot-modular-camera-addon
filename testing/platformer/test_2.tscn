@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dx1liqtnyn5y5"]
+[gd_scene load_steps=30 format=3 uid="uid://dx1liqtnyn5y5"]
 
 [ext_resource type="Texture2D" uid="uid://bgxlhccmujh0q" path="res://icon.svg" id="1_3acpp"]
 [ext_resource type="Script" path="res://testing/platformer/Area3D.gd" id="2_rai63"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://addons/modular_camera/camera_ray_cast_proprties.gd" id="8_ay371"]
 [ext_resource type="Script" path="res://addons/modular_camera/modifiers/constant.gd" id="8_nducq"]
 [ext_resource type="Script" path="res://testing/platformer/spin_behaviour.gd" id="9_lb313"]
+[ext_resource type="Script" path="res://testing/platformer/wave_modifier.gd" id="10_w5nos"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qflqa"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -125,6 +126,11 @@ override_reference_frame = false
 reference_frame_override = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 override_raycast = false
 
+[sub_resource type="Resource" id="Resource_s6gm7"]
+script = ExtResource("10_w5nos")
+speed = 10.0
+amplitude = 0.2
+
 [sub_resource type="Resource" id="Resource_4o71j"]
 script = ExtResource("4_db2fa")
 duration = 1.0
@@ -215,10 +221,11 @@ mesh = SubResource("CapsuleMesh_fm3vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
-transform = Transform3D(0.913692, 0.040573, -0.404377, 0, 0.995004, 0.0998334, 0.406407, -0.091217, 0.909127, -0.812815, 1.7, 1.82738)
+transform = Transform3D(-0.813209, -0.0581003, 0.579065, 0, 0.995004, 0.0998334, -0.581972, 0.0811854, -0.809146, 1.06631, 1.7, -1.69629)
 script = ExtResource("4_hsbit")
 target_node = NodePath("../player/camera_target")
 default_behaviour = SubResource("Resource_1oqn2")
+modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([SubResource("Resource_s6gm7")])
 default_interpolation = SubResource("Resource_4o71j")
 default_ray_cast = SubResource("Resource_kjx76")
 

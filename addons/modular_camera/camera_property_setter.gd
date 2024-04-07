@@ -1,4 +1,4 @@
-## This class is NOT menat to be used by end users
+## This class is NOT meant to be used by end users
 @tool
 class_name CameraPropertySetter
 extends Resource

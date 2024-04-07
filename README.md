@@ -13,5 +13,7 @@ This shouldn't be a problem since there's usually only 1 camera in a game at all
 ## Documentation
 
 - [Overview](docs/overview.md)
+- [Writing custom behaviours](docs/custom_behaviours.md)
+- [Writing custom modifiers](docs/custom_modifiers.md)
 
 You can find class references in the editor via the "search help" button

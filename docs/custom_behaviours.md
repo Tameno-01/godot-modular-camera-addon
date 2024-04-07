@@ -37,3 +37,7 @@ func _process(delta: float):
 ```
 
 This example behaviour will make the camera rotate around the target.
+
+##
+
+You edit `properties` to control the output of the behaviour.
