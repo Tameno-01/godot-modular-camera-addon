@@ -95,6 +95,10 @@ Now, let's say you have behaviors A and B, and you interpolate between them, wil
 
 The ray cast is what prevents the camera from going into walls or other geometry.
 
+It's technically a spherical shape cast behind the scenes, so it can have a `margin_radius`.
+
+The ray cast is performed from the target to the cameras after all modifiers are applied.
+
 ## The reference frame
 
 You only need to touch the reference frame if you're making a game with no defined up direction, unless you're making a game like super mario galaxy or a space game in general where up can be anywhere, don't bother reading this section.
