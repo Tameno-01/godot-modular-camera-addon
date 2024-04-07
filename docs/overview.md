@@ -50,7 +50,7 @@ Yes, there's no `set_behaviour`. instead, there's a list of all behaviours the c
 
 ### Why bother with the priority thing??
 
-Imagine a game where you can pick up weapons and get in a vehicles, and you want different camera behaviour for when you're holding a ranged weapon (maybe an over the shoulder perspective for better aiming), and another different behaviour for when you're in a vehicle.
+Imagine a game where you can pick up weapons and get in vehicles, and you want a camera behaviour for when you're holding a ranged weapon (maybe an over the shoulder perspective for better aiming), and another different behaviour for when you're in a vehicle.
 
 Now imagine you get out of a vehicle, you just switch the camera to the default behaviour, right? wrong. If you were holding a weapon, you'd need to have switched to the ranged weapon behaviour.
 
@@ -97,7 +97,7 @@ The ray cast is what prevents the camera from going into walls or other geometry
 
 It's technically a spherical shape cast behind the scenes, so it can have a `margin_radius`.
 
-The ray cast is performed from the target to the cameras after all modifiers are applied.
+The ray cast is performed from the target to the camera after all modifiers are applied.
 
 ## The reference frame
 
@@ -114,3 +114,8 @@ There are a few... let's say... rules you should always follow:
 1. **Individual behaviours and modifiers should only be in one place at a time**. If you have to cameras, make sure they use different instances of behaviours, and make sure you never put the same instance of a modifier on two behaviours at once.
 2. **Do not use `CameraBehaviourInterpolator`**, I would hide it if i could. It's an internal class used for handling interpolation.
 3. **Anything that isn't documented should not be used.**
+
+# Next up
+
+- [Writing custom behaviours](custom_behaviours.md)
+- [Writing custom modifiers](custom_modifiers.md)
