@@ -1,6 +1,6 @@
 ## Custom Behaviours
 
-To create a new behaviour, make a script file anywhere that extends `CameraBehaviour`
+To create a new behaviour, make a script file anywhere that extends `CameraBehaviour`.
 
 ```gdscript
 @tool
