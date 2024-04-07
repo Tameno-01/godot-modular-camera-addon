@@ -44,7 +44,7 @@ After supplying it a camera, a player and a behaviour in the inspector, this sim
 
 Yes, there's no `set_behaviour`. instead, there's a list of all behaviours the camera could have, which you add and remove items from, and then the camera will always pick the behaviour with the highest `priority`\*\*
 
-\*Ties are solved by picking the behaviour that was added most recently
+\*Ties are solved by picking the behaviour that was added most recently.
 
 \*The `priority` of the `default_behaviour` is ignored, everything has a higher property than the `default_behaviour`.
 
@@ -115,7 +115,7 @@ The camera's relative transform to the target gets multiplied by the reference f
 
 There are a few... let's say... rules you should always follow:
 
-1. **Individual behaviours and modifiers should only be in one place at a time**. If you have to cameras, make sure they use different instances of behaviours, and make sure you never put the same instance of a modifier on two behaviours at once.
+1. **Individual behaviours and modifiers should only be in one place at a time**. If you have two cameras, make sure they use different instances of behaviours, and make sure you never put the same instance of a modifier on two behaviours at once.
 2. **Do not use `CameraBehaviourInterpolator`**, I would hide it if i could. It's an internal class used for handling interpolation.
 3. **Anything that isn't documented should not be used.**
 
