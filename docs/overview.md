@@ -11,11 +11,11 @@
 
 ## What did we just do?
 
-What you are messing around with right now are the core values with which the position of a camera is defined. they are purposefully redundant, as it's meant to be easy to move the camera in exactly the way you want it.
+What you are messing around with right now are the core values with which the position of a camera is defined. They are purposefully redundant, as it's meant to be easy to move the camera in exactly the way you want it.
 
-The whole deal with the `CameraBehaviour` is because, well, we need to tell the camera how to behave, so we told it that it's behaviour should be to be being still (relative to its `target`), that's why we gave it a `CameraBehaviourStatic`. In a real game, you will want to make your own `CameraBehaviour`s, but we're getting ahead of ourselves.
+The whole deal with the `CameraBehaviour` is because, well, we need to tell the camera how to behave, so we told the camera that its behaviour is to be still (relative to its `target`), that's why we gave it a `CameraBehaviourStatic`. In a real game, you will want to make your own `CameraBehaviour`s, but we're getting ahead of ourselves.
 
-The point of having the behaviour of the camera be encapsulated in a class is so we can change it at runtime. for example, you would want the camera to behave differently when you get in a vehicle vs when your walking, or change during a cutscene, or change to an over the shoulder view if you pick up a weapon, or change depending on what part of the level you're in in a 3d platformer, the examples go on and on.
+The point of having the behaviour of the camera be encapsulated in a class is so we can change it at runtime. for example, you would want the camera to behave differently when you get in a vehicle vs when you're walking, or change during a cutscene, or change to an over the shoulder view if you pick up a weapon, or change depending on what part of the level you're in in a 3d platformer, the examples go on and on.
 
 ## Changing the behaviour at runtime
 
