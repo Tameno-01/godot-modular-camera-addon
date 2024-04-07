@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://dx1liqtnyn5y5"]
+[gd_scene load_steps=25 format=3 uid="uid://dx1liqtnyn5y5"]
 
 [ext_resource type="Texture2D" uid="uid://bgxlhccmujh0q" path="res://icon.svg" id="1_3acpp"]
 [ext_resource type="Script" path="res://testing/platformer/Area3D.gd" id="2_rai63"]
@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://addons/modular_camera/modular_camera.gd" id="4_hsbit"]
 [ext_resource type="Script" path="res://addons/modular_camera/behaviours/static.gd" id="4_ka8sa"]
 [ext_resource type="Script" path="res://addons/modular_camera/camera_ray_cast_proprties.gd" id="8_ay371"]
-[ext_resource type="Script" path="res://testing/platformer/wave_modifier.gd" id="10_w5nos"]
+[ext_resource type="Script" path="res://testing/platformer/spin_behaviour.gd" id="9_lb313"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qflqa"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -96,29 +96,9 @@ height = 1.4
 radius = 0.2
 height = 1.4
 
-[sub_resource type="Resource" id="Resource_iirws"]
-script = ExtResource("3_7u3p5")
-distance = 1.0
-direction = -1.26
-height = 0.0
-lean = 0.0
-roll = 0.0
-pitch = 0.0
-yaw = 0.0
-pan = Vector2(0, 0)
-local_pan = Vector2(0, 0)
-offset = Vector3(0, 0, 0)
-fov_multiplier = 1.0
-
-[sub_resource type="Resource" id="Resource_adt00"]
-script = ExtResource("10_w5nos")
-speed = 10.0
-amplitude = 0.2
-
-[sub_resource type="Resource" id="Resource_7jl7x"]
-script = ExtResource("4_ka8sa")
-constant_properties = SubResource("Resource_iirws")
-modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([SubResource("Resource_adt00")])
+[sub_resource type="Resource" id="Resource_x4o4y"]
+script = ExtResource("9_lb313")
+modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([])
 priority = 0
 override_target = false
 target_override = Vector3(0, 0, 0)
@@ -216,10 +196,10 @@ mesh = SubResource("CapsuleMesh_fm3vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
-transform = Transform3D(0.305817, 0, -0.95209, 0, 1, 0, 0.95209, 0, 0.305817, -1.00622, 0.7, 0.137294)
+transform = Transform3D(-0.274758, 0, 0.961513, 0, 1, 0, -0.961513, 0, -0.274758, 0.961513, 0.7, -0.274758)
 script = ExtResource("4_hsbit")
 target_node = NodePath("../player/camera_target")
-default_behaviour = SubResource("Resource_7jl7x")
+default_behaviour = SubResource("Resource_x4o4y")
 default_interpolation = SubResource("Resource_4o71j")
 default_ray_cast = SubResource("Resource_kjx76")
 
