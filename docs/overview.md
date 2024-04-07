@@ -97,7 +97,7 @@ The ray cast is what prevents the camera from going into walls or other geometry
 
 Try setting the camera's `Default Ray Cast` to a new `CameraRayCastProperties`.
 
-Behaviours can also have their own ray cast settings that will replace the `Default Ray Cast` while they're active. you do this by enabling `Override Raycast` on the behaviour and setting it's `Raycast Override` to something, or leaving it empty to disable ray casting while the behaviour is active.
+Behaviours can also have their own ray cast settings that will replace the `Default Ray Cast` while they're active. You do this by enabling `Override Raycast` on the behaviour and setting it's `Raycast Override` to something, or leaving it empty to disable ray casting while the behaviour is active.
 
 The ray cast is technically a spherical shape cast behind the scenes, so it can have a `margin_radius`.
 
