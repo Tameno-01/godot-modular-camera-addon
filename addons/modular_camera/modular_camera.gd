@@ -40,7 +40,7 @@ enum reference_frame_modes {
 @export_category("Behaviour")
 ## The behaviour the camera follows when the behaviours list is empty.
 @export var default_behaviour: CameraBehaviour : set=_set_default_behaviour
-## The list of modifiers which are applied to the camera.
+## The list of modifiers which are applied to the camera, this should never be touched outsie the inspector.
 @export var modifiers: Array[CameraModifier] = []
 
 @export_category("Misc")

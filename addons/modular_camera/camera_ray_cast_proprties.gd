@@ -1,3 +1,5 @@
+## The properties of the ray cast that prevents this camera form going through walls or other geometry.
+## Behind the secenes, this is a shape cast and not a ray cast.
 @tool
 class_name CameraRayCastProperties
 extends Resource
@@ -14,10 +16,13 @@ enum recovery_types {
 	SMOOTH,
 }
 
-
+## What this raycast can collide with.
 @export_flags_3d_physics var colision_mask: int = 0
+## The thickness of the ray cast, this is usefull to prvent geometry from crashing into the near clipping plain.
 @export var margin_radius: float = 0.05
+## How the camera should recover to it's normal position once the obstruction that was triggering the ray cast is no longer present.
 @export var recovery_type: recovery_types = recovery_types.SMOOTH
+## The speed (if recovery_type is set to LINEAR) or the stiffness (if recovery_type is set to SMOOTH) of the camera's recovery.
 @export var recovery_speed_stiffness: float = 4.0
 
 

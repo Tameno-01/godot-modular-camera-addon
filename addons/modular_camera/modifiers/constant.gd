@@ -1,8 +1,9 @@
+## The simplest modifier, it adds a constant offset to where the camera is.
 @tool
 class_name CameraModifierConstant
 extends CameraModifier
 
-
+## The properties that will be added to the camera.
 @export var constant_properties: CameraProperties : set = _set_properties
 
 

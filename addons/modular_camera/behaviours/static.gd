@@ -1,8 +1,9 @@
+## The simplest behaviour, it keeps the camera still at a place (unless modifiers make it move).
 @tool
 class_name CameraBehaviourStatic
 extends CameraBehaviour
 
-
+## The properties that determine where the camera should be.
 @export var constant_properties: CameraProperties : set = _set_properties
 
 

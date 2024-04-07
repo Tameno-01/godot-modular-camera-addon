@@ -1,3 +1,4 @@
+## Base class for all camera behaviours.
 @tool
 class_name CameraBehaviour
 extends CameraPropertySetter
@@ -7,16 +8,25 @@ extends CameraPropertySetter
 # This means that this variable is accessed from outside this script,
 # but should be hidden from the end user.
 
-
+## The list of modifiers of this behaviour, this should never be touched outside the inspector.
 @export var modifiers: Array[CameraModifier] = []
+## The priority of this behviour, the camera pickes the behaviour with the highest priority.
 @export var priority: int = 0
+## The interpolation used when swicthing to this behaviour.
 @export var in_interpolation: CameraInterpolation
+## The interpolation used when swicthing from this behaviour.
 @export var out_interpolation: CameraInterpolation
+## Wether to use target_override.
 @export var override_target: bool = false
+## The target of the camera when this behaviour is active, only used if override_target is true.
 @export var target_override: Vector3
+## Wether to use reference_frame_override.
 @export var override_reference_frame: bool = false
+## The reference frame of the camera when this behaviour is active, only used if override_reference_frame is true.
 @export var reference_frame_override: Basis
+## Wether to use raycast_override.
 @export var override_raycast: bool = false
+## The ray cast the camera will use when this behaviour is active, only used if override_raycast is true.
 @export var raycast_override: CameraRayCastProperties
 
 
@@ -55,7 +65,7 @@ func _base_process(delta: float):
 			_output_properties.add(modifier._output_properties)
 			i += 1
 
-
+## Adds a modifier to the modifiers list.
 func add_modifier(modifier: CameraModifier):
 	if modifiers.has(modifier):
 		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
@@ -64,7 +74,7 @@ func add_modifier(modifier: CameraModifier):
 	if _started:
 		modifier._base_start()
 
-
+## Removes a modifier from the modifiers list.
 func remove_modifier(modifier: CameraBehaviour):
 	if not modifiers.has(modifier):
 		ModularCameraUtils.print_detailed_err("Tried to remove modifier, but modifier is not in modifiers list.")

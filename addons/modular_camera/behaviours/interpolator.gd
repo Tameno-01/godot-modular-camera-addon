@@ -1,8 +1,6 @@
+## This class is NOT meant to be used by end users
 class_name CameraBehaviourInterpolator
 extends CameraBehaviour
-
-
-# This class is NOT meant to be used by end users
 
 
 const ANGULAR_PROPERTIES: Array[StringName] = [
@@ -67,18 +65,6 @@ func _process(delta: float):
 				),
 		)
 	properties = props
-	t = interpolation.get_t(_time, true)
-	var targetA: Vector3
-	if behaviourA.override_target:
-		targetA = behaviourA.target_override
-	else:
-		targetA = camera._get_default_target()
-	var targetB: Vector3
-	if behaviourB.override_target:
-		targetB = behaviourB.target_override
-	else:
-		targetB = camera._get_default_target()
-	target_override = lerp(targetA, targetB, t)
 	var reference_frameA: Basis
 	if behaviourA.override_reference_frame:
 		reference_frameA = behaviourA.reference_frame_override
@@ -95,6 +81,18 @@ func _process(delta: float):
 	reference_frame_override = Basis(quat)
 	if _time >= interpolation.duration:
 		finished.emit()
+	t = interpolation.get_t(_time, true)
+	var targetA: Vector3
+	if behaviourA.override_target:
+		targetA = behaviourA.target_override
+	else:
+		targetA = camera._get_default_target()
+	var targetB: Vector3
+	if behaviourB.override_target:
+		targetB = behaviourB.target_override
+	else:
+		targetB = camera._get_default_target()
+	target_override = lerp(targetA, targetB, t)
 
 
 func _on_interpolator_a_finished():

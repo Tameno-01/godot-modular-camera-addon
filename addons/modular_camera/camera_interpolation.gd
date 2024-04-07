@@ -1,3 +1,4 @@
+## Interpolation parameters and calculations.
 @tool
 class_name CameraInterpolation
 extends Resource
@@ -12,16 +13,22 @@ enum INTERPOLATION_TYPES {
 	CURVE,
 }
 
-
+## How long the interpolation lasts.
 @export var duration: float = 1.0
+## The type of interpolation.
 @export var type: INTERPOLATION_TYPES = INTERPOLATION_TYPES.EASE_IN_OUT
+## The curve of the interpolation, only used if type is set to CURVE.
 @export var curve: Curve
+## Wether to use a different type of interpolation for the camera target.
 @export var use_different_curve_for_target: bool = false
+## The type of interpolation for the target, only used if use_different_curve_for_target is true.
 @export var target_type: INTERPOLATION_TYPES = INTERPOLATION_TYPES.EASE_IN_OUT
+## The type of interpolation for the target, only used if use_different_curve_for_target is true and target_type is set to CURVE.
 @export var target_curve: Curve
+## The priority of this interpolation, when there are two availabe interpolations to pick from, the one with the highest priority will be picked.
 @export var priority: int = 0
 
-
+## Gets the interpolation value at a certain time
 func get_t(time, target: bool = false) -> float:
 	if time >= duration:
 		return 1.0

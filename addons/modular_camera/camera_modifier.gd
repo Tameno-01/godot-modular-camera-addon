@@ -1,3 +1,4 @@
+## Base class for all camera modifiers.
 @tool
 class_name CameraModifier
 extends CameraPropertySetter
@@ -18,7 +19,7 @@ func _start():
 func _stop():
 	_on_stop()
 
-
+## Removes this modifier from whatever camera or behaviour it's attatched to.
 func remove():
 	_pending_removal = true
 

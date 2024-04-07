@@ -1,20 +1,32 @@
+## The properties with wich the position and roatation of the camera are defined within it's target.
 @tool
 class_name CameraProperties
 extends Resource
 
+## The distance to the target, this property is multiplicative.
 @export var distance: float = 1.0
+## You can think of this as the rotation around the target's Y axis.
 @export var direction: float = 0.0
+## You can think of this as the rotation around the target's X axis.
 @export var height: float = 0.0
+## You can think of this as the rotation around the target's Z axis.
 @export var lean: float = 0.0
+## You can think of this as the rotation around the camera's Z axis.
 @export var roll: float = 0.0
+## You can think of this as the rotation around the camera's X axis.
 @export var pitch: float = 0.0
+## You can think of this as the rotation around the camera's Y axis.
 @export var yaw: float = 0.0
+## How the camera should be panned, this is relative to distance.
 @export var pan := Vector2.ZERO
+## How the camera should be panned after all other paramentes are applied.
 @export var local_pan := Vector2.ZERO
+## How the camrea should be moved after all other settings are applied.
 @export var offset := Vector3.ZERO
+## What the fov should be multiplied by, this property is multiplicative.
 @export var fov_multiplier: float = 1.0
 
-
+## Adds another set of properties to this set of properties.
 func add(properties: CameraProperties):
 	distance *= properties.distance
 	direction += properties.direction
@@ -28,7 +40,7 @@ func add(properties: CameraProperties):
 	offset += properties.offset
 	fov_multiplier *= properties.fov_multiplier
 
-
+## Interpolates this set of properties to another set of properties.
 func interpolate_to(properties: CameraProperties, t: float):
 	distance = lerp(distance, properties.distance, t)
 	direction = lerp_angle(direction, properties.direction, t)
@@ -42,7 +54,7 @@ func interpolate_to(properties: CameraProperties, t: float):
 	offset = lerp(offset, properties.offset, t)
 	fov_multiplier = lerp(fov_multiplier, properties.fov_multiplier, t)
 
-
+## Copies another set of properries to this set of properties 
 func copy_from(properties: CameraProperties):
 	distance = properties.distance
 	direction = properties.direction
