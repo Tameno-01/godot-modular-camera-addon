@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   height="16"
+   viewBox="0 0 16 16"
+   width="16"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="ModularCamera.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     showgrid="false"
+     inkscape:zoom="26.96875"
+     inkscape:cx="4.4125145"
+     inkscape:cy="9.0845886"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     id="path2"
+     d="m 9.4855346,2 a 3,3 0 0 0 -3,2.7773438 v 1.6269531 c 0.4329991,-0.064413 0.8828489,-0.05903 1.3496094,0.089844 0.4142842,0.1321361 0.8345834,0.425376 1.0957031,0.8417969 0.2611197,0.4164209 0.3652344,0.909586 0.3652344,1.4394531 0,0.5298674 -0.1041147,1.0210783 -0.3652344,1.4375004 -0.2611197,0.416419 -0.6814189,0.70966 -1.0957031,0.841797 -0.4667606,0.148872 -0.9166104,0.154257 -1.3496094,0.08984 V 13 h 4.0000004 a 1,1 0 0 0 1,-1 v -1 l 3,2 V 7 l -3,2 V 7.2304688 A 3,3 0 0 0 9.4855346,2 Z M 3.2921752,3.9902344 A 3,3 0 0 0 2.5167846,9.8242188 V 12 a 1,1 0 0 0 1,1 h 2 V 9.890625 c 1.3554299,0.49257 2.8203125,0.623782 2.8203125,-1.1152344 0,-1.7390162 -1.4648826,-1.609757 -2.8203125,-1.1171875 V 4.7773438 A 3,3 0 0 0 3.2921752,3.9902344 Z"
+     style="fill:#fc7f7f;fill-opacity:1" />
+</svg>

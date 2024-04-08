@@ -9,9 +9,9 @@ const FLIP_OFFSET = TAU / 2
 ## Press this to reset the shake in the inspector.
 @export var _reset := false: # _ Because users aren't meant to access this value through code
 		set = _set_reset
-## How intentse the shake is
+## How intentse the shake is.
 @export var intensity: float = 0.1
-## How fast the shake is
+## How fast the shake is.
 @export var speed: float = 40.0
 ## How fast the shake gets less intense, the duration of the shake is 1 / decay.
 @export var decay: float = 0.0

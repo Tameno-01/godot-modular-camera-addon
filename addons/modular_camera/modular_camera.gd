@@ -1,6 +1,7 @@
 ## An advanced camera that can follow behaviours, interpolate between them and have modifiers applied to it.
 ## It also has a built in ray cast to avoid going inside walls and other geometry.
 @tool
+@icon("res://addons/modular_camera/icons/modular_camera.svg")
 class_name ModularCamera
 extends Camera3D
 
