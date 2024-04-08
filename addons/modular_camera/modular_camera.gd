@@ -107,7 +107,7 @@ func add_modifier(modifier: CameraModifier):
 		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
 		return
 	modifiers.append(modifier)
-	modifier._base_start()
+	modifier._base_start(self)
 
 ## Removes a modifier from the modifiers list.
 func remove_modifier(modifier: CameraModifier):
@@ -176,7 +176,7 @@ func _update_behaviour(force_ray_cast_update: bool = false):
 		if _current_behaviour:
 			_current_behaviour._base_stop()
 		if new_behaviour:
-			new_behaviour._base_start()
+			new_behaviour._base_start(self)
 	if _current_behaviour:
 		_current_behaviour._usage_count -= 1
 	if new_behaviour:
@@ -186,13 +186,8 @@ func _update_behaviour(force_ray_cast_update: bool = false):
 
 
 func _update_ray_cast():
-	if not _current_behaviour:
-		if _shape_cast:
-			_shape_cast.queue_free()
-			_shape_cast = null
-		return
 	var prev_ray_cast_properties = _ray_cast_properties
-	if _current_behaviour.override_raycast:
+	if _current_behaviour and _current_behaviour.override_raycast:
 		_ray_cast_properties = _current_behaviour.raycast_override
 	else:
 		_ray_cast_properties = default_ray_cast
@@ -242,7 +237,6 @@ func _handle_modifiers(properties: CameraProperties, delta: float):
 
 func _interpolate_to(new_behaviour: CameraBehaviour):
 	var new_interpolator := CameraBehaviourInterpolator.new()
-	new_interpolator.camera = self
 	if _interpolator:
 		new_interpolator.behaviourA = _interpolator
 	else:
@@ -250,7 +244,7 @@ func _interpolate_to(new_behaviour: CameraBehaviour):
 	new_interpolator.behaviourB = new_behaviour
 	new_interpolator.out_interpolation = new_behaviour.out_interpolation
 	new_interpolator.interpolation = _get_interpolation(new_interpolator.behaviourA, new_interpolator.behaviourB)
-	new_interpolator._base_start()
+	new_interpolator._base_start(self)
 	new_interpolator.connect(
 				&"finished",
 				_on_interpolator_finished,
@@ -340,7 +334,7 @@ func _set_modifers(value: Array[CameraModifier]):
 		if not modifier:
 			continue
 		if not _prev_modifiers.has(modifier):
-			modifier._base_start()
+			modifier._base_start(self)
 	for modifier in _prev_modifiers:
 		if not modifier:
 			continue

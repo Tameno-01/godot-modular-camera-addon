@@ -39,7 +39,7 @@ func _start():
 	_on_start()
 	_output_properties.copy_from(properties)
 	for modifier in modifiers:
-		modifier._base_start()
+		modifier._base_start(camera)
 		_output_properties.add(modifier._output_properties)
 
 
@@ -74,7 +74,7 @@ func add_modifier(modifier: CameraModifier):
 		return
 	modifiers.append(modifier)
 	if _started:
-		modifier._base_start()
+		modifier._base_start(camera)
 
 ## Removes a modifier from the modifiers list.
 func remove_modifier(modifier: CameraBehaviour):
@@ -95,7 +95,7 @@ func _set_modifers(value: Array[CameraModifier]):
 		if not modifier:
 			continue
 		if not _prev_modifiers.has(modifier):
-			modifier._base_start()
+			modifier._base_start(camera)
 	for modifier in _prev_modifiers:
 		if not modifier:
 			continue

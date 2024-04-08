@@ -16,7 +16,6 @@ const ANGULAR_PROPERTIES: Array[StringName] = [
 var behaviourA: CameraBehaviour
 var behaviourB: CameraBehaviour
 var interpolation: CameraInterpolation
-var camera: ModularCamera
 
 
 var _time: float
@@ -37,7 +36,7 @@ func _on_start():
 	behaviourA._usage_count += 1
 	behaviourB._usage_count += 1
 	if behaviourB._usage_count == 1:
-		behaviourB._base_start()
+		behaviourB._base_start(camera)
 	for property in ANGULAR_PROPERTIES:
 		var interpolation_manager: AngleInterpolationManager = AngleInterpolationManager.new()
 		interpolation_manager.start(

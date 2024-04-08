@@ -10,16 +10,19 @@ extends Resource
 
 
 var properties := CameraProperties.new()
+var camera: ModularCamera
 
 
 var _output_properties := CameraProperties.new() # FP
 var _started: bool = false # FP
 
 
-func _base_start(): # FP
+func _base_start(starting_camera: ModularCamera): # FP
 	if _started:
 		ModularCameraUtils.print_detailed_err("Trying to start behaviour/modifier, but it has aredy been started.")
+		return
 	_started = true
+	camera = starting_camera
 	_start()
 
 
