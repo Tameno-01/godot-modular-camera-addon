@@ -1,4 +1,4 @@
-## Modifier that shakes thet camera.
+## Modifier that shakes the camera.
 @tool
 class_name CameraModifierShake
 extends CameraModifier
@@ -21,7 +21,7 @@ const FLIP_OFFSET = TAU / 2
 @export var vertical_intenisty: float = 1.0
 ## How much to randomize the speed of the horizontal and vertial shakes.
 @export_range(0.0, 0.99) var speed_random: float = 0.3
-## Wether to remove this modifier when the shake has lost all of it's intensity, only relevnt if decay is not 0.
+## Whether to remove this modifier when the shake has lost all of it's intensity, only relevant if decay is not 0.
 @export var auto_remove: bool = true
 
 var _horizontal_progress: float

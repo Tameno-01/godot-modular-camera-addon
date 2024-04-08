@@ -47,7 +47,7 @@ fov_multiplier = 1.0
 script = ExtResource("4_ka8sa")
 constant_properties = SubResource("Resource_yyxpg")
 modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([])
-priority = 0
+priority = 10
 override_target = true
 target_override = Vector3(0, 0, 0)
 override_reference_frame = false
@@ -121,8 +121,8 @@ override_raycast = false
 [sub_resource type="Resource" id="Resource_m2i0o"]
 script = ExtResource("10_d4jto")
 _reset = false
-intensity = 0.005
-speed = 15.0
+intensity = 0.01
+speed = 10.0
 decay = 0.0
 horizontal_intensity = 1.0
 vertical_intenisty = 1.0
@@ -219,7 +219,7 @@ mesh = SubResource("CapsuleMesh_fm3vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
-transform = Transform3D(0.986839, -0.0161437, 0.160899, 0, 0.995004, 0.0998334, -0.161707, -0.0985195, 0.981909, 0.322858, 1.69539, 1.97424)
+transform = Transform3D(0.913504, -0.0406153, 0.404798, 0, 0.995004, 0.0998334, -0.40683, -0.0911982, 0.90894, 0.813979, 1.70411, 1.82641)
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")
 default_behaviour = SubResource("Resource_fcvok")

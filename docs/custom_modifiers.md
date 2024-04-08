@@ -75,3 +75,43 @@ func _on_stop():
 	# We make sure to remove the ray cast node once we don't need it anymore.
 	_ray_cast.queue_free()
 ```
+
+Additionally, you can call `remove()` to remove the modifier from whatever behaviour or camera it's added to, this is how `Auto Remove` works in `CameraModifierShake`, here is part of its code:
+
+```gdscript
+## Modifier that shakes the camera.
+@tool
+class_name CameraModifierShake
+extends CameraModifier
+
+# ...
+
+## How fast the shake gets less instense, the duration of the shake is 1 / decay.
+@export var decay: float = 0.0
+
+# ...
+
+## Whether to remove this modifier when the shake has lost all of it's intensity, only relevant if decay is not 0.
+@export var auto_remove: bool = true
+
+# ...
+
+var _decay_left: float
+
+#...
+
+func _process(delta: float):
+
+	# ...
+
+	_decay_left -= decay * delta
+	if _decay_left <= 0.0:
+		if auto_remove and not Engine.is_editor_hint():
+			remove()
+		
+		#...
+	
+	#...
+
+# ...
+```
