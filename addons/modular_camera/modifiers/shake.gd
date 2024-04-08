@@ -13,7 +13,7 @@ const FLIP_OFFSET = TAU / 2
 @export var intensity: float = 0.1
 ## How fast the shake is
 @export var speed: float = 40.0
-## How fast the shake gets less instense, the duration of the shake is 1 / decay.
+## How fast the shake gets less intense, the duration of the shake is 1 / decay.
 @export var decay: float = 0.0
 ## How much tha camera should shake horizontally.
 @export var horizontal_intensity: float = 1.0

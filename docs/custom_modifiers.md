@@ -86,7 +86,7 @@ extends CameraModifier
 
 # ...
 
-## How fast the shake gets less instense, the duration of the shake is 1 / decay.
+## How fast the shake gets less intense, the duration of the shake is 1 / decay.
 @export var decay: float = 0.0
 
 # ...
