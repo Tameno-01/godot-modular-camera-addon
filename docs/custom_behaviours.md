@@ -44,7 +44,8 @@ This example behaviour will make the camera rotate around the target.
 
 You edit `properties` to control the output of the behaviour.
 
-You can also read `camera` to get the `ModularCamera` node this behaviour is acting on. Here's an example of how we can us this to do our own ray casts:
+You can also read `camera` to get the `ModularCamera` node this behaviour is acting on. Here's an example of how we can use this to do our own ray casts:
+
 ```gdscript
 @tool
 class_name RayCastExample

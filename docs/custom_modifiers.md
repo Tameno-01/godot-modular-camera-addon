@@ -49,7 +49,8 @@ This modifier will move the camera left and right in a sine wave.
 
 You edit `properties` to control the output of the modifier.
 
-You can also read `camera` to get the `ModularCamera` node this modifier is acting on. Here's an example of how we can us this to do our own ray casts:
+You can also read `camera` to get the `ModularCamera` node this modifier is acting on. Here's an example of how we can use this to do our own ray casts:
+
 ```gdscript
 @tool
 class_name RayCastExample
