@@ -4,7 +4,8 @@ class_name CameraModifierConstant
 extends CameraModifier
 
 ## The properties that will be added to the camera.
-@export var constant_properties: CameraProperties : set = _set_properties
+@export var constant_properties: CameraProperties:
+		set = _set_properties
 
 
 func _on_start():

@@ -7,7 +7,8 @@ extends CameraModifier
 const FLIP_OFFSET = TAU / 2
 
 
-@export var _reset := false : set=_set_reset # _ Because users aren't meant to access this value through code
+@export var _reset := false: # _ Because users aren't meant to access this value through code
+		set = _set_reset
 ## How intentse the shake is
 @export var intensity: float = 0.1
 ## How fast the shake is

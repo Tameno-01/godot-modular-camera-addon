@@ -39,9 +39,11 @@ enum reference_frame_modes {
 
 @export_category("Behaviour")
 ## The behaviour the camera follows when the behaviours list is empty.
-@export var default_behaviour: CameraBehaviour : set=_set_default_behaviour
+@export var default_behaviour: CameraBehaviour:
+		set = _set_default_behaviour
 ## The list of modifiers which are applied to the camera, this should never be touched outsie the inspector.
-@export var modifiers: Array[CameraModifier] = []
+@export var modifiers: Array[CameraModifier] = []:
+		set = _set_modifers
 
 @export_category("Misc")
 ## The base fov of the camera.
@@ -60,12 +62,11 @@ var _interpolator: CameraBehaviourInterpolator = null
 var _shape_cast: ShapeCast3D
 var _ray_cast_properties: CameraRayCastProperties
 var _prev_raycast_movement_needed: float
+var _prev_modifiers: Array[CameraModifier] = modifiers
 
 
 func _ready():
 	_update_behaviour(true)
-	for modifier in modifiers:
-		modifier._base_start()
 
 
 func _process(delta: float):
@@ -109,7 +110,7 @@ func add_modifier(modifier: CameraModifier):
 	modifier._base_start()
 
 ## Removes a modifier from the modifiers list.
-func remove_modifier(modifier: CameraBehaviour):
+func remove_modifier(modifier: CameraModifier):
 	if not modifiers.has(modifier):
 		ModularCameraUtils.print_detailed_err("Tried to remove modifier, but modifier is not in modifiers list.")
 		return
@@ -311,7 +312,7 @@ func _do_ray_cast(target: Vector3, delta: float):
 	_prev_raycast_movement_needed = movement_needed
 
 
-func _update_properties(target: Vector3, reference_frame, current_properties: CameraProperties):
+func _update_properties(target: Vector3, reference_frame: Basis, current_properties: CameraProperties):
 	var trans = Transform3D.IDENTITY
 	trans = trans.translated(Vector3(current_properties.local_pan.x, current_properties.local_pan.y, 0.0))
 	trans = trans.rotated(Vector3.BACK, current_properties.roll)
@@ -331,3 +332,18 @@ func _update_properties(target: Vector3, reference_frame, current_properties: Ca
 func _set_default_behaviour(value: CameraBehaviour):
 	default_behaviour = value
 	_update_behaviour()
+
+
+func _set_modifers(value: Array[CameraModifier]):
+	modifiers = value
+	for modifier in modifiers:
+		if not modifier:
+			continue
+		if not _prev_modifiers.has(modifier):
+			modifier._base_start()
+	for modifier in _prev_modifiers:
+		if not modifier:
+			continue
+		if not modifiers.has(modifier):
+			modifier._base_stop()
+	_prev_modifiers = modifiers

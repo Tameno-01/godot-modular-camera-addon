@@ -9,7 +9,8 @@ extends CameraPropertySetter
 # but should be hidden from the end user.
 
 ## The list of modifiers of this behaviour, this should never be touched outside the inspector.
-@export var modifiers: Array[CameraModifier] = []
+@export var modifiers: Array[CameraModifier] = []:
+		set = _set_modifers
 ## The priority of this behviour, the camera pickes the behaviour with the highest priority.
 @export var priority: int = 0
 ## The interpolation used when swicthing to this behaviour.
@@ -31,6 +32,7 @@ extends CameraPropertySetter
 
 
 var _usage_count: int = 0 # FP
+var _prev_modifiers: Array[CameraModifier] = modifiers
 
 
 func _start():
@@ -82,6 +84,24 @@ func remove_modifier(modifier: CameraBehaviour):
 	modifiers.erase(modifier)
 	if _started:
 		modifier._base_stop()
+
+
+func _set_modifers(value: Array[CameraModifier]):
+	modifiers = value
+	if not _started:
+		_prev_modifiers = modifiers
+		return
+	for modifier in modifiers:
+		if not modifier:
+			continue
+		if not _prev_modifiers.has(modifier):
+			modifier._base_start()
+	for modifier in _prev_modifiers:
+		if not modifier:
+			continue
+		if not modifiers.has(modifier):
+			modifier._base_stop()
+	_prev_modifiers = modifiers
 
 
 func _on_start():

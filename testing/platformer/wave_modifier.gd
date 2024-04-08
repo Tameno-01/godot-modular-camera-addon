@@ -1,5 +1,5 @@
 @tool
-class_name CameraModifierWave
+class_name TESTCameraModifierWave
 extends CameraModifier
 
 
