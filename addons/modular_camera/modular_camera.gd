@@ -88,6 +88,9 @@ func _process(delta: float):
 
 ## Adds a behaviour to the behaviours list.
 func add_behaviour(behaviour: CameraBehaviour):
+	if not behaviour:
+		ModularCameraUtils.print_detailed_err("Tried to add behaviour, but behaviour is null.")
+		return
 	if _behaviours.has(behaviour):
 		ModularCameraUtils.print_detailed_err("Tried to add behaviour, but behaviour has alredy been added.")
 		return
@@ -96,6 +99,9 @@ func add_behaviour(behaviour: CameraBehaviour):
 
 ## Removes a behaviour from the behaviours list.
 func remove_behaviour(behaviour: CameraBehaviour):
+	if not behaviour:
+		ModularCameraUtils.print_detailed_err("Tried to remove behaviour, but behaviour is null.")
+		return
 	if not _behaviours.has(behaviour):
 		ModularCameraUtils.print_detailed_err("Tried to remove behaviour, but behaviour is not in behaviours list.")
 		return
@@ -104,6 +110,9 @@ func remove_behaviour(behaviour: CameraBehaviour):
 
 ## Adds a modifier to the modifiers list.
 func add_modifier(modifier: CameraModifier):
+	if not modifier:
+		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier is null.")
+		return
 	if modifiers.has(modifier):
 		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
 		return
@@ -112,6 +121,9 @@ func add_modifier(modifier: CameraModifier):
 
 ## Removes a modifier from the modifiers list.
 func remove_modifier(modifier: CameraModifier):
+	if not modifier:
+		ModularCameraUtils.print_detailed_err("Tried to remove modifier, but modifier is null.")
+		return
 	if not modifiers.has(modifier):
 		ModularCameraUtils.print_detailed_err("Tried to remove modifier, but modifier is not in modifiers list.")
 		return
