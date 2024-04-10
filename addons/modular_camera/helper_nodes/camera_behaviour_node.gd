@@ -1,3 +1,4 @@
+## A helper node to better allow behaviours to interact with the current scene.
 @tool
 class_name CameraBehaviourNode
 extends Node3D
@@ -10,18 +11,29 @@ enum target_update_modes {
 	PHYSICS_PROCESS,
 }
 
-
+## The behaviour this node holds.
 @export var behaviour: CameraBehaviour
+## The camera to put this behaviour on.
+@export var camera: ModularCamera
+## Press this button to make the current camera (needs to be set) preview the behaviour.
+@export var _preview_behaviour: bool = false:
+		set = _set_preview_behaviour
+## When to update the behaviour's target_override to this node's position, only relevant if the behaviour's override_target is true.
 @export var target_update_mode: target_update_modes = target_update_modes.NEVER:
 		set = _set_target_update_mode
+## Press this button to instantly update the behaviour's target_override to this node's position, only relevant if the behaviour's override_target is true.
 @export var _update_target: bool = false:
 		set = _set_update_target
-@export var camera: ModularCamera
 
-
+## Updates the behaviour's target_override to this node's position
 func update_target():
 	if behaviour:
 		behaviour.target_override = global_position
+
+## Makes the current camera (needs to be set) preview the behaviour.
+func preview_behaviour():
+	if behaviour and camera:
+		camera._preview_behaviour(behaviour)
 
 
 func _ready():
@@ -67,3 +79,8 @@ func _update_target_update_mode():
 func _set_update_target(value: bool):
 	if value:
 		update_target()
+
+
+func _set_preview_behaviour(value: bool):
+	if value:
+		preview_behaviour()

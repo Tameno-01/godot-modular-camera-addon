@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://dx1liqtnyn5y5"]
+[gd_scene load_steps=30 format=3 uid="uid://dx1liqtnyn5y5"]
 
 [ext_resource type="Texture2D" uid="uid://bgxlhccmujh0q" path="res://icon.svg" id="1_3acpp"]
 [ext_resource type="Script" path="res://testing/platformer/Area3D.gd" id="2_rai63"]
@@ -33,8 +33,23 @@ uv1_scale = Vector3(100, 100, 100)
 [sub_resource type="BoxShape3D" id="BoxShape3D_88kwg"]
 size = Vector3(1, 2, 2)
 
+[sub_resource type="Resource" id="Resource_mavnn"]
+script = ExtResource("3_7u3p5")
+distance = 1.0
+direction = 0.0
+height = 0.0
+lean = 0.0
+roll = 0.0
+pitch = 0.0
+yaw = 0.0
+pan = Vector2(0, 0)
+local_pan = Vector2(0, 0)
+offset = Vector3(0, 0, 0)
+fov_multiplier = 1.0
+
 [sub_resource type="Resource" id="Resource_1yh3a"]
 script = ExtResource("4_ka8sa")
+constant_properties = SubResource("Resource_mavnn")
 modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([])
 priority = 0
 override_target = true
@@ -188,10 +203,10 @@ behaviour_node = NodePath("CameraBehaviourNode")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Area3D"]
 shape = SubResource("BoxShape3D_88kwg")
 
-[node name="CameraBehaviourNode" type="Node3D" parent="Level/Area3D"]
+[node name="CameraBehaviourNode" type="Node3D" parent="Level/Area3D" node_paths=PackedStringArray("camera")]
 script = ExtResource("12_xnu0o")
 behaviour = SubResource("Resource_1yh3a")
-target_update_mode = 2
+camera = NodePath("../../../ModularCamera")
 
 [node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
 script = ExtResource("3_b0c2j")
@@ -210,7 +225,7 @@ mesh = SubResource("CapsuleMesh_fm3vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
-transform = Transform3D(-0.990131, -0.0139911, 0.139444, 0, 0.995004, 0.0998334, -0.140144, 0.0988482, -0.985185, 0.27724, 1.69978, -1.98072)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.49673, 0.993499, -1.05078)
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")
 default_behaviour = SubResource("Resource_fcvok")

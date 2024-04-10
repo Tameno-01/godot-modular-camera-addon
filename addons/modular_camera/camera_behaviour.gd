@@ -73,7 +73,7 @@ func add_modifier(modifier: CameraModifier):
 		ModularCameraUtils.print_detailed_err("Tried to add modifier, but modifier has alredy been added.")
 		return
 	modifiers.append(modifier)
-	if _started:
+	if active:
 		modifier._base_start(camera)
 
 ## Removes a modifier from the modifiers list.
@@ -82,13 +82,13 @@ func remove_modifier(modifier: CameraBehaviour):
 		ModularCameraUtils.print_detailed_err("Tried to remove modifier, but modifier is not in modifiers list.")
 		return
 	modifiers.erase(modifier)
-	if _started:
+	if active:
 		modifier._base_stop()
 
 
 func _set_modifers(value: Array[CameraModifier]):
 	modifiers = value
-	if not _started:
+	if not active:
 		_prev_modifiers = modifiers
 		return
 	for modifier in modifiers:

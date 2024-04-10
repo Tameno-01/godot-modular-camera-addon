@@ -53,6 +53,9 @@ enum reference_frame_modes {
 @export var default_interpolation: CameraInterpolation
 ## The settings for the ray cast that is performed to prevent the camera from crashing into walls which are used when the current behaviour has override_raycast set to false.
 @export var default_ray_cast: CameraRayCastProperties
+## Press this button to stop previewing the currently previewed behaviour
+@export var __stop_previewing_behaviour: bool = false: # Double underscore to not conflict with function name
+		set = _set_stop_previewing_behaviour
 
 
 var _behaviours: Array[CameraBehaviour] = [] # FP
@@ -60,6 +63,7 @@ var _behaviours: Array[CameraBehaviour] = [] # FP
 
 var _current_behaviour: CameraBehaviour
 var _interpolator: CameraBehaviourInterpolator = null
+var _previewed_behaviour: CameraBehaviour = null
 var _shape_cast: ShapeCast3D
 var _ray_cast_properties: CameraRayCastProperties
 var _prev_raycast_movement_needed: float
@@ -77,6 +81,9 @@ func _process(delta: float):
 	if _interpolator:
 		_interpolator._base_base_process(delta)
 		properties = _interpolator._output_properties
+	elif _previewed_behaviour:
+		_previewed_behaviour._base_base_process(delta)
+		properties = _previewed_behaviour._output_properties
 	else:
 		_current_behaviour._base_base_process(delta)
 		properties = _current_behaviour._output_properties
@@ -131,9 +138,32 @@ func remove_modifier(modifier: CameraModifier):
 	modifier._base_stop()
 
 
+func _preview_behaviour(behaviour: CameraBehaviour): # FP
+	if behaviour == _previewed_behaviour:
+		return
+	_previewed_behaviour = behaviour
+	if not _previewed_behaviour == _current_behaviour:
+		_previewed_behaviour._base_start(self)
+		_current_behaviour._base_stop()
+
+
+func _stop_previewing_behaviour(): # FP
+	if not _previewed_behaviour:
+		return
+	if not _previewed_behaviour == _current_behaviour:
+		_previewed_behaviour._base_stop()
+		_current_behaviour._base_start(self)
+	_previewed_behaviour = null
+
+
 func _get_target() -> Vector3:
 	if _interpolator:
 		return _interpolator.target_override
+	if _previewed_behaviour:
+		if _previewed_behaviour.override_target:
+			return _previewed_behaviour.target_override
+		else:
+			return _get_default_target()
 	if _current_behaviour.override_target:
 		return _current_behaviour.target_override
 	else:
@@ -198,12 +228,21 @@ func _update_behaviour(force_ray_cast_update: bool = false):
 	_update_ray_cast()
 
 
+func _get_current_raycast_properties() -> CameraRayCastProperties:
+	if _previewed_behaviour:
+		if _previewed_behaviour.override_raycast:
+			return _previewed_behaviour.raycast_override
+		else:
+			return default_ray_cast
+	elif _current_behaviour and _current_behaviour.override_raycast:
+		return _current_behaviour.raycast_override
+	else:
+		return default_ray_cast
+
+
 func _update_ray_cast():
 	var prev_ray_cast_properties = _ray_cast_properties
-	if _current_behaviour and _current_behaviour.override_raycast:
-		_ray_cast_properties = _current_behaviour.raycast_override
-	else:
-		_ray_cast_properties = default_ray_cast
+	_ray_cast_properties = _get_current_raycast_properties()
 	if prev_ray_cast_properties == _ray_cast_properties:
 		return
 	_prev_raycast_movement_needed = 0.0
@@ -354,3 +393,8 @@ func _set_modifers(value: Array[CameraModifier]):
 		if not modifiers.has(modifier):
 			modifier._base_stop()
 	_prev_modifiers = modifiers
+
+
+func _set_stop_previewing_behaviour(value: bool):
+	if value:
+		_stop_previewing_behaviour()
