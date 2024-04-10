@@ -8,6 +8,9 @@ extends CameraPropertySetter
 # This means that this variable is accessed from outside this script,
 # but should be hidden from the end user.
 
+
+signal raycast_changed
+
 ## The list of modifiers of this behaviour, this should never be touched outside the inspector.
 @export var modifiers: Array[CameraModifier] = []:
 		set = _set_modifers
@@ -26,9 +29,11 @@ extends CameraPropertySetter
 ## The reference frame of the camera when this behaviour is active, only used if override_reference_frame is true.
 @export var reference_frame_override: Basis
 ## Wether to use raycast_override.
-@export var override_raycast: bool = false
+@export var override_raycast: bool = false:
+		set = _set_override_raycast
 ## The ray cast the camera will use when this behaviour is active, only used if override_raycast is true.
-@export var raycast_override: CameraRayCastProperties
+@export var raycast_override: CameraRayCastProperties:
+		set = _set_raycast_override
 
 
 var _usage_count: int = 0 # FP
@@ -104,9 +109,27 @@ func _set_modifers(value: Array[CameraModifier]):
 	_prev_modifiers = modifiers
 
 
+func _emit_raycast_changed_signal():
+	emit_signal(&"raycast_changed")
+
+
 func _on_start():
 	pass
 
 
 func _on_stop():
 	pass
+
+
+func _set_override_raycast(value: bool):
+	override_raycast = value
+	_emit_raycast_changed_signal()
+
+
+func _set_raycast_override(value: CameraRayCastProperties):
+	if raycast_override:
+		raycast_override.disconnect(&"raycast_changed", _emit_raycast_changed_signal)
+	raycast_override = value
+	_emit_raycast_changed_signal()
+	if raycast_override:
+		raycast_override.connect(&"raycast_changed", _emit_raycast_changed_signal)

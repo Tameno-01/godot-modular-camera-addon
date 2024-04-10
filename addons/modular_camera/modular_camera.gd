@@ -139,21 +139,13 @@ func remove_modifier(modifier: CameraModifier):
 
 
 func _preview_behaviour(behaviour: CameraBehaviour): # FP
-	if behaviour == _previewed_behaviour:
-		return
 	_previewed_behaviour = behaviour
-	if not _previewed_behaviour == _current_behaviour:
-		_previewed_behaviour._base_start(self)
-		_current_behaviour._base_stop()
+	_update_behaviour()
 
 
-func _stop_previewing_behaviour(): # FP
-	if not _previewed_behaviour:
-		return
-	if not _previewed_behaviour == _current_behaviour:
-		_previewed_behaviour._base_stop()
-		_current_behaviour._base_start(self)
+func _stop_previewing_behaviour():
 	_previewed_behaviour = null
+	_update_behaviour()
 
 
 func _get_target() -> Vector3:
@@ -222,8 +214,10 @@ func _update_behaviour(force_ray_cast_update: bool = false):
 			new_behaviour._base_start(self)
 	if _current_behaviour:
 		_current_behaviour._usage_count -= 1
+		_current_behaviour.disconnect(&"raycast_changed", _behaviour_raycast_changed)
 	if new_behaviour:
 		new_behaviour._usage_count += 1
+		new_behaviour.connect(&"raycast_changed", _behaviour_raycast_changed)
 	_current_behaviour = new_behaviour
 	_update_ray_cast()
 
@@ -240,10 +234,10 @@ func _get_current_raycast_properties() -> CameraRayCastProperties:
 		return default_ray_cast
 
 
-func _update_ray_cast():
+func _update_ray_cast(force: bool = true):
 	var prev_ray_cast_properties = _ray_cast_properties
 	_ray_cast_properties = _get_current_raycast_properties()
-	if prev_ray_cast_properties == _ray_cast_properties:
+	if prev_ray_cast_properties == _ray_cast_properties and not force:
 		return
 	_prev_raycast_movement_needed = 0.0
 	if _shape_cast:
@@ -259,6 +253,8 @@ func _update_ray_cast():
 
 
 func _get_current_behaviour():
+	if _previewed_behaviour:
+		return _previewed_behaviour
 	if _behaviours.size() == 0:
 		return default_behaviour
 	var max_priority: int = INT_MIN
@@ -373,6 +369,10 @@ func _update_properties(target: Vector3, reference_frame: Basis, current_propert
 	trans = trans.translated(target)
 	transform = trans
 	fov = clampf(base_fov * current_properties.fov_multiplier, 1.0, 179.0)
+
+
+func _behaviour_raycast_changed():
+	_update_ray_cast(true)
 
 
 func _set_default_behaviour(value: CameraBehaviour):

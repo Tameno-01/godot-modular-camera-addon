@@ -10,6 +10,9 @@ extends Resource
 # but should be hidden from the end user.
 
 
+signal raycast_changed
+
+
 enum recovery_types {
 	INSTANT,
 	LINEAR,
@@ -17,9 +20,11 @@ enum recovery_types {
 }
 
 ## What this raycast can collide with.
-@export_flags_3d_physics var colision_mask: int = 0
+@export_flags_3d_physics var colision_mask: int = 0:
+		set = _set_colision_mask
 ## The thickness of the ray cast, this is usefull to prvent geometry from crashing into the near clipping plain.
-@export var margin_radius: float = 0.05
+@export_range(0.001, 1.0) var margin_radius: float = 0.05:
+		set = _set_margin_radius
 ## How the camera should recover to it's normal position once the obstruction that was triggering the ray cast is no longer present.
 @export var recovery_type: recovery_types = recovery_types.SMOOTH
 ## The speed (if recovery_type is set to LINEAR) or the stiffness (if recovery_type is set to SMOOTH) of the camera's recovery.
@@ -39,3 +44,13 @@ func _get_movement_needed(previous_movement_needed: float, target_movement_neede
 			output = max(target_movement_needed, output)
 			return output
 	return 0.0
+
+
+func _set_colision_mask(value: int):
+	colision_mask = value
+	emit_signal(&"raycast_changed")
+
+
+func _set_margin_radius(value: float):
+	margin_radius = value
+	emit_signal(&"raycast_changed")
