@@ -26,11 +26,6 @@ var _interpolation_managers: Dictionary = {}
 signal finished
 
 
-func _init():
-	override_target = true
-	override_reference_frame = true
-
-
 func _on_start():
 	_time = 0.0
 	behaviourA._usage_count += 1
@@ -44,6 +39,10 @@ func _on_start():
 				behaviourB._output_properties.get(property),
 		)
 		_interpolation_managers[property] = interpolation_manager
+	if behaviourA.override_target:
+		target_override = behaviourA.target_override
+	else:
+		target_override = camera._get_default_target()
 
 
 func _process(delta: float):

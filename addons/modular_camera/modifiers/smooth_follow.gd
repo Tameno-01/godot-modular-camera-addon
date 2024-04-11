@@ -17,8 +17,6 @@ func _on_start():
 
 func _process(delta: float):
 	var target_position: Vector3 = camera.get_target()
-	if not Engine.is_editor_hint():
-		print(target_position)
 	var movement: Vector3 = target_position - _current_position
 	movement *= stiffness * delta
 	_current_position += movement
