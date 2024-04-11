@@ -210,14 +210,13 @@ func _get_default_reference_frame() -> Basis: # FP
 
 func _update_behaviour(force_ray_cast_update: bool = false):
 	var prev_behaviour = _current_behaviour
-	var prev_target = get_target()
 	_current_behaviour = _get_current_behaviour()
 	if _current_behaviour == prev_behaviour:
 		if force_ray_cast_update:
 			_update_ray_cast()
 		return
 	if prev_behaviour and _current_behaviour:
-		_interpolate_from(prev_behaviour, prev_target)
+		_interpolate_from(prev_behaviour)
 	else:
 		if prev_behaviour:
 			prev_behaviour._base_stop()
@@ -293,7 +292,7 @@ func _handle_modifiers(properties: CameraProperties, delta: float):
 			i += 1
 
 
-func _interpolate_from(prev_behaviour: CameraBehaviour, prev_target: Vector3):
+func _interpolate_from(prev_behaviour: CameraBehaviour):
 	var new_interpolator := CameraBehaviourInterpolator.new()
 	if _interpolator:
 		new_interpolator.behaviourA = _interpolator
@@ -318,7 +317,6 @@ func _interpolate_from(prev_behaviour: CameraBehaviour, prev_target: Vector3):
 				CONNECT_DEFERRED + CONNECT_ONE_SHOT,
 		)
 	_interpolator = new_interpolator
-	_interpolator.target_override = prev_target
 	_interpolator._base_start(self)
 
 
