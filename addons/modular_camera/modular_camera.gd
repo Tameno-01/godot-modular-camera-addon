@@ -68,30 +68,7 @@ var _shape_cast: ShapeCast3D
 var _ray_cast_properties: CameraRayCastProperties
 var _prev_raycast_movement_needed: float
 var _prev_modifiers: Array[CameraModifier] = modifiers
-
-
-func _ready():
-	_update_behaviour(true)
-
-
-func _process(delta: float):
-	if not _current_behaviour:
-		return
-	var properties: CameraProperties
-	if _interpolator:
-		_interpolator._base_base_process(delta)
-		properties = _interpolator._output_properties
-	elif _previewed_behaviour:
-		_previewed_behaviour._base_base_process(delta)
-		properties = _previewed_behaviour._output_properties
-	else:
-		_current_behaviour._base_base_process(delta)
-		properties = _current_behaviour._output_properties
-	var target: Vector3 = _get_target()
-	var reference_frame: Basis = _get_reference_frame()
-	_handle_modifiers(properties, delta)
-	_update_properties(target, reference_frame, properties)
-	_do_ray_cast(target, delta)
+var _is_ready: bool = false
 
 ## Adds a behaviour to the behaviours list.
 func add_behaviour(behaviour: CameraBehaviour):
@@ -137,6 +114,61 @@ func remove_modifier(modifier: CameraModifier):
 	modifiers.erase(modifier)
 	modifier._base_stop()
 
+## Returns the camera's current target position.
+func get_target() -> Vector3:
+	if _interpolator:
+		return _interpolator.target_override
+	if _previewed_behaviour:
+		if _previewed_behaviour.override_target:
+			return _previewed_behaviour.target_override
+		else:
+			return _get_default_target()
+	if _current_behaviour and _current_behaviour.override_target:
+		return _current_behaviour.target_override
+	else:
+		return _get_default_target()
+
+## Returns the camera's current reference frame.
+func get_reference_frame() -> Basis:
+	if _interpolator:
+		return _interpolator.reference_frame_override
+	elif _previewed_behaviour:
+		if _previewed_behaviour.override_reference_frame:
+			return _previewed_behaviour.reference_frame_override
+		else:
+			return _get_default_reference_frame()
+	if _current_behaviour.override_reference_frame:
+		return _current_behaviour.reference_frame_override
+	else:
+		return _get_default_reference_frame()
+
+
+func _ready():
+	_update_behaviour(true)
+	for modifier in modifiers:
+		modifier._base_start(self)
+	_is_ready = true
+
+
+func _process(delta: float):
+	if not _current_behaviour:
+		return
+	var properties: CameraProperties
+	if _interpolator:
+		_interpolator._base_base_process(delta)
+		properties = _interpolator._output_properties
+	elif _previewed_behaviour:
+		_previewed_behaviour._base_base_process(delta)
+		properties = _previewed_behaviour._output_properties
+	else:
+		_current_behaviour._base_base_process(delta)
+		properties = _current_behaviour._output_properties
+	var target: Vector3 = get_target()
+	var reference_frame: Basis = get_reference_frame()
+	_handle_modifiers(properties, delta)
+	_update_properties(target, reference_frame, properties)
+	_do_ray_cast(target, delta)
+
 
 func _preview_behaviour(behaviour: CameraBehaviour): # FP
 	_previewed_behaviour = behaviour
@@ -146,20 +178,6 @@ func _preview_behaviour(behaviour: CameraBehaviour): # FP
 func _stop_previewing_behaviour():
 	_previewed_behaviour = null
 	_update_behaviour()
-
-
-func _get_target() -> Vector3:
-	if _interpolator:
-		return _interpolator.target_override
-	if _previewed_behaviour:
-		if _previewed_behaviour.override_target:
-			return _previewed_behaviour.target_override
-		else:
-			return _get_default_target()
-	if _current_behaviour.override_target:
-		return _current_behaviour.target_override
-	else:
-		return _get_default_target()
 
 
 func _get_default_target() -> Vector3: # FP
@@ -174,15 +192,6 @@ func _get_default_target() -> Vector3: # FP
 		target_modes.POSITION:
 			return target_position
 	return Vector3.ZERO
-
-
-func _get_reference_frame() -> Basis:
-	if _interpolator:
-		return _interpolator.reference_frame_override
-	if _current_behaviour.override_reference_frame:
-		return _current_behaviour.reference_frame_override
-	else:
-		return _get_default_reference_frame()
 
 
 func _get_default_reference_frame() -> Basis: # FP
@@ -200,25 +209,26 @@ func _get_default_reference_frame() -> Basis: # FP
 
 
 func _update_behaviour(force_ray_cast_update: bool = false):
-	var new_behaviour: CameraBehaviour = _get_current_behaviour()
-	if new_behaviour == _current_behaviour:
+	var prev_behaviour = _current_behaviour
+	var prev_target = get_target()
+	_current_behaviour = _get_current_behaviour()
+	if _current_behaviour == prev_behaviour:
 		if force_ray_cast_update:
 			_update_ray_cast()
 		return
-	if _current_behaviour and new_behaviour:
-		_interpolate_to(new_behaviour)
+	if prev_behaviour and _current_behaviour:
+		_interpolate_from(prev_behaviour, prev_target)
 	else:
+		if prev_behaviour:
+			prev_behaviour._base_stop()
 		if _current_behaviour:
-			_current_behaviour._base_stop()
-		if new_behaviour:
-			new_behaviour._base_start(self)
+			_current_behaviour._base_start(self)
+	if prev_behaviour:
+		prev_behaviour._usage_count -= 1
+		prev_behaviour.disconnect(&"raycast_changed", _behaviour_raycast_changed)
 	if _current_behaviour:
-		_current_behaviour._usage_count -= 1
-		_current_behaviour.disconnect(&"raycast_changed", _behaviour_raycast_changed)
-	if new_behaviour:
-		new_behaviour._usage_count += 1
-		new_behaviour.connect(&"raycast_changed", _behaviour_raycast_changed)
-	_current_behaviour = new_behaviour
+		_current_behaviour._usage_count += 1
+		_current_behaviour.connect(&"raycast_changed", _behaviour_raycast_changed)
 	_update_ray_cast()
 
 
@@ -283,16 +293,15 @@ func _handle_modifiers(properties: CameraProperties, delta: float):
 			i += 1
 
 
-func _interpolate_to(new_behaviour: CameraBehaviour):
+func _interpolate_from(prev_behaviour: CameraBehaviour, prev_target: Vector3):
 	var new_interpolator := CameraBehaviourInterpolator.new()
 	if _interpolator:
 		new_interpolator.behaviourA = _interpolator
 	else:
-		new_interpolator.behaviourA = _current_behaviour
-	new_interpolator.behaviourB = new_behaviour
-	new_interpolator.out_interpolation = new_behaviour.out_interpolation
+		new_interpolator.behaviourA = prev_behaviour
+	new_interpolator.behaviourB = _current_behaviour
+	new_interpolator.out_interpolation = _current_behaviour.out_interpolation
 	new_interpolator.interpolation = _get_interpolation(new_interpolator.behaviourA, new_interpolator.behaviourB)
-	new_interpolator._base_start(self)
 	new_interpolator.connect(
 				&"finished",
 				_on_interpolator_finished,
@@ -309,6 +318,8 @@ func _interpolate_to(new_behaviour: CameraBehaviour):
 				CONNECT_DEFERRED + CONNECT_ONE_SHOT,
 		)
 	_interpolator = new_interpolator
+	_interpolator.target_override = prev_target
+	_interpolator._base_start(self)
 
 
 func _on_interpolator_finished():
@@ -377,11 +388,16 @@ func _behaviour_raycast_changed():
 
 func _set_default_behaviour(value: CameraBehaviour):
 	default_behaviour = value
+	if not _is_ready:
+		return
 	_update_behaviour()
 
 
 func _set_modifers(value: Array[CameraModifier]):
 	modifiers = value
+	if not _is_ready:
+		_prev_modifiers = modifiers
+		return
 	for modifier in modifiers:
 		if not modifier:
 			continue

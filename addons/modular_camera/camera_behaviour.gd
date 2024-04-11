@@ -110,7 +110,7 @@ func _set_modifers(value: Array[CameraModifier]):
 
 
 func _emit_raycast_changed_signal():
-	emit_signal(&"raycast_changed")
+	raycast_changed.emit()
 
 
 func _on_start():

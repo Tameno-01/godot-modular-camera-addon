@@ -1,4 +1,4 @@
-## A helper node that adds a behaviour to the camera once a player enters it.
+## A helper node that adds a behaviour to the camera once the player enters it.
 @tool
 class_name CameraBehaviourNodeTriggerAera
 extends Area3D

@@ -48,9 +48,9 @@ func _get_movement_needed(previous_movement_needed: float, target_movement_neede
 
 func _set_colision_mask(value: int):
 	colision_mask = value
-	emit_signal(&"raycast_changed")
+	raycast_changed.emit()
 
 
 func _set_margin_radius(value: float):
 	margin_radius = value
-	emit_signal(&"raycast_changed")
+	raycast_changed.emit()
