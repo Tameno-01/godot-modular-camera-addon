@@ -25,6 +25,14 @@ enum target_update_modes {
 @export var _update_target: bool = false:
 		set = _set_update_target
 
+## Adds the behaviour to the camera.
+func add_behaviour():
+	camera.add_behaviour(behaviour)
+
+## Removes the behaviour from the camera.
+func remove_behaviour():
+	camera.remove_behaviour(behaviour)
+
 ## Updates the behaviour's target_override to this node's position
 func update_target():
 	if behaviour:

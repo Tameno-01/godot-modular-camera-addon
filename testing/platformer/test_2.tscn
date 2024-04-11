@@ -1,7 +1,7 @@
-[gd_scene load_steps=31 format=3 uid="uid://dx1liqtnyn5y5"]
+[gd_scene load_steps=30 format=3 uid="uid://dx1liqtnyn5y5"]
 
 [ext_resource type="Texture2D" uid="uid://bgxlhccmujh0q" path="res://icon.svg" id="1_3acpp"]
-[ext_resource type="Script" path="res://testing/platformer/Area3D.gd" id="2_rai63"]
+[ext_resource type="Script" path="res://addons/modular_camera/helper_nodes/camera_behaviour_node_trigger_area.gd" id="2_5svx3"]
 [ext_resource type="Script" path="res://addons/modular_camera/camera_properties.gd" id="3_7u3p5"]
 [ext_resource type="Script" path="res://testing/player.gd" id="3_b0c2j"]
 [ext_resource type="Script" path="res://addons/modular_camera/camera_interpolation.gd" id="4_db2fa"]
@@ -36,7 +36,7 @@ size = Vector3(1, 2, 2)
 [sub_resource type="Resource" id="Resource_mavnn"]
 script = ExtResource("3_7u3p5")
 distance = 2.0
-direction = 1.575
+direction = 1.58
 height = 0.0
 lean = 0.0
 roll = 0.0
@@ -47,13 +47,6 @@ local_pan = Vector2(0, 0)
 offset = Vector3(0, 0, 0)
 fov_multiplier = 1.0
 
-[sub_resource type="Resource" id="Resource_5i28l"]
-script = ExtResource("8_ay371")
-colision_mask = 256
-margin_radius = 0.05
-recovery_type = 2
-recovery_speed_stiffness = 4.0
-
 [sub_resource type="Resource" id="Resource_1yh3a"]
 script = ExtResource("4_ka8sa")
 constant_properties = SubResource("Resource_mavnn")
@@ -63,8 +56,7 @@ override_target = true
 target_override = Vector3(-2.5, 1, -2)
 override_reference_frame = false
 reference_frame_override = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-override_raycast = true
-raycast_override = SubResource("Resource_5i28l")
+override_raycast = false
 
 [sub_resource type="Resource" id="Resource_ptest"]
 script = ExtResource("3_7u3p5")
@@ -201,22 +193,23 @@ use_collision = true
 collision_layer = 257
 size = Vector3(0.1, 3, 5.1)
 
-[node name="Area3D" type="Area3D" parent="Level" node_paths=PackedStringArray("camera", "player", "behaviour_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, -2)
-script = ExtResource("2_rai63")
-camera = NodePath("../../ModularCamera")
+[node name="CameraBehaviourNodeTriggerAera" type="Area3D" parent="Level" node_paths=PackedStringArray("player", "camera_behaviour_node")]
+script = ExtResource("2_5svx3")
 player = NodePath("../../Player")
-behaviour_node = NodePath("CameraBehaviourNode")
+camera_behaviour_node = NodePath("CameraBehaviourNode")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/CameraBehaviourNodeTriggerAera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, -2)
 shape = SubResource("BoxShape3D_88kwg")
 
-[node name="CameraBehaviourNode" type="Node3D" parent="Level/Area3D" node_paths=PackedStringArray("camera")]
+[node name="CameraBehaviourNode" type="Node3D" parent="Level/CameraBehaviourNodeTriggerAera" node_paths=PackedStringArray("camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, -2)
 script = ExtResource("12_xnu0o")
 behaviour = SubResource("Resource_1yh3a")
 camera = NodePath("../../../ModularCamera")
 
 [node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.45058e-09)
 script = ExtResource("3_b0c2j")
 camera = NodePath("../ModularCamera")
 alternate_behaviour = SubResource("Resource_ebbr8")
@@ -233,13 +226,10 @@ mesh = SubResource("CapsuleMesh_fm3vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
-transform = Transform3D(-0.00420371, 0, 0.999991, 0, 1, 0, -0.999991, 0, -0.00420371, -0.499979, 0.994019, -1.99936)
+transform = Transform3D(0.308458, 0.0949653, -0.946486, 0, 0.995004, 0.0998334, 0.951238, -0.0307944, 0.306917, -1.9003, 1.69161, 0.626349)
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")
 default_behaviour = SubResource("Resource_fcvok")
 modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([SubResource("Resource_m2i0o")])
 default_interpolation = SubResource("Resource_4o71j")
 default_ray_cast = SubResource("Resource_kjx76")
-
-[connection signal="body_entered" from="Level/Area3D" to="Level/Area3D" method="_on_body_entered"]
-[connection signal="body_exited" from="Level/Area3D" to="Level/Area3D" method="_on_body_exited"]
