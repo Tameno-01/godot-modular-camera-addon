@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://dx1liqtnyn5y5"]
+[gd_scene load_steps=31 format=3 uid="uid://dx1liqtnyn5y5"]
 
 [ext_resource type="Texture2D" uid="uid://bgxlhccmujh0q" path="res://icon.svg" id="1_3acpp"]
 [ext_resource type="Script" path="res://addons/modular_camera/helper_nodes/camera_behaviour_node_trigger_area.gd" id="2_5svx3"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" path="res://addons/modular_camera/behaviours/static.gd" id="4_ka8sa"]
 [ext_resource type="Script" path="res://addons/modular_camera/modifiers/constant.gd" id="7_3mpoo"]
 [ext_resource type="Script" path="res://addons/modular_camera/camera_ray_cast_proprties.gd" id="8_ay371"]
-[ext_resource type="Script" path="res://addons/modular_camera/modifiers/smooth_follow.gd" id="9_jwyqt"]
 [ext_resource type="Script" path="res://testing/platformer/spin_behaviour.gd" id="9_lb313"]
 [ext_resource type="Script" path="res://addons/modular_camera/modifiers/shake.gd" id="10_d4jto"]
 [ext_resource type="Script" path="res://addons/modular_camera/helper_nodes/camera_behaviour_node.gd" id="12_xnu0o"]
@@ -48,6 +47,13 @@ local_pan = Vector2(0, 0)
 offset = Vector3(0, 0, 0)
 fov_multiplier = 1.0
 
+[sub_resource type="Resource" id="Resource_8hept"]
+script = ExtResource("8_ay371")
+colision_mask = 256
+margin_radius = 0.05
+recovery_type = 2
+recovery_speed_stiffness = 4.0
+
 [sub_resource type="Resource" id="Resource_1yh3a"]
 script = ExtResource("4_ka8sa")
 constant_properties = SubResource("Resource_mavnn")
@@ -57,7 +63,8 @@ override_target = true
 target_override = Vector3(-2.5, 1, -2)
 override_reference_frame = false
 reference_frame_override = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
-override_raycast = false
+override_raycast = true
+raycast_override = SubResource("Resource_8hept")
 
 [sub_resource type="Resource" id="Resource_ptest"]
 script = ExtResource("3_7u3p5")
@@ -110,13 +117,9 @@ fov_multiplier = 1.0
 script = ExtResource("7_3mpoo")
 constant_properties = SubResource("Resource_4lgjq")
 
-[sub_resource type="Resource" id="Resource_66pb3"]
-script = ExtResource("9_jwyqt")
-stiffness = 10.0
-
 [sub_resource type="Resource" id="Resource_fcvok"]
 script = ExtResource("9_lb313")
-modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([SubResource("Resource_ln1lg"), SubResource("Resource_66pb3")])
+modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([SubResource("Resource_ln1lg")])
 priority = 0
 override_target = false
 target_override = Vector3(0, 0, 0)
@@ -233,7 +236,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 [node name="Node3D" type="Node3D" parent="."]
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node", "reference_frame_node")]
-transform = Transform3D(-0.980719, -0.0195098, 0.194447, 0, 0.995004, 0.0998334, -0.195424, 0.0979085, -0.975819, 0.385764, 1.7049, -1.96195)
+transform = Transform3D(0.761743, 0.06468, -0.644642, 0, 0.995004, 0.0998334, 0.647879, -0.0760474, 0.757938, -1.28879, 1.69028, 1.53069)
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")
 reference_frame_node = NodePath("../Node3D")
