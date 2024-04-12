@@ -47,7 +47,7 @@ enum reference_frame_modes {
 		set = _set_modifers
 
 @export_category("Misc")
-## The base fov of the camera.
+## The base focal length of the camera.
 @export var base_focal_length: float = 1.42815
 ## The interpolation that is used when interpolating between an behaviour that doesn't have an out_interpolation and one that doesn't have an in_interpolation.
 @export var default_interpolation: CameraInterpolation

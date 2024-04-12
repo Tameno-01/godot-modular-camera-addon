@@ -236,12 +236,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 [node name="Node3D" type="Node3D" parent="."]
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node", "reference_frame_node")]
-transform = Transform3D(0.393762, -0.0917681, 0.91462, 0, 0.995004, 0.0998334, -0.919212, -0.0393106, 0.391795, 1.83625, 1.70317, 0.791801)
-fov = 69.9999
+transform = Transform3D(-0.921629, 0.0387425, -0.386133, 0, 0.995004, 0.0998334, 0.388072, 0.0920094, -0.917025, -0.781296, 1.70826, -1.84019)
+fov = 80.6556
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")
 reference_frame_node = NodePath("../Node3D")
 default_behaviour = SubResource("Resource_fcvok")
 modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([SubResource("Resource_m2i0o")])
+base_focal_length = 1.178
 default_interpolation = SubResource("Resource_4o71j")
 default_ray_cast = SubResource("Resource_kjx76")

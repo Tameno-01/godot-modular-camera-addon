@@ -23,7 +23,7 @@ extends Resource
 @export var local_pan := Vector2.ZERO
 ## How the camrea should be moved after all other settings are applied.
 @export var offset := Vector3.ZERO
-## What the fov should be multiplied by, this property is multiplicative.
+## What the focal length should be multiplied by, this property is multiplicative.
 @export var focal_length_multiplier: float = 1.0
 
 ## Adds another set of properties to this set of properties.
