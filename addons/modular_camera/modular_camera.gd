@@ -48,7 +48,7 @@ enum reference_frame_modes {
 
 @export_category("Misc")
 ## The base fov of the camera.
-@export var base_fov: float = 75.0
+@export var base_focal_length: float = 1.42815
 ## The interpolation that is used when interpolating between an behaviour that doesn't have an out_interpolation and one that doesn't have an in_interpolation.
 @export var default_interpolation: CameraInterpolation
 ## The settings for the ray cast that is performed to prevent the camera from crashing into walls which are used when the current behaviour has override_raycast set to false.
@@ -377,7 +377,8 @@ func _update_properties(target: Vector3, reference_frame: Basis, current_propert
 	trans = Transform3D(reference_frame, Vector3.ZERO) * trans
 	trans = trans.translated(target)
 	transform = trans
-	fov = clampf(base_fov * current_properties.fov_multiplier, 1.0, 179.0)
+	var new_fov: float = rad_to_deg(atan(1.0 / (base_focal_length * current_properties.focal_length_multiplier)) * 2.0)
+	fov = clamp(new_fov, 1.0, 179.0)
 
 
 func _behaviour_raycast_changed():

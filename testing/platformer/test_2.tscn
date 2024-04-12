@@ -35,7 +35,7 @@ size = Vector3(1, 2, 2)
 
 [sub_resource type="Resource" id="Resource_mavnn"]
 script = ExtResource("3_7u3p5")
-distance = 2.0
+distance = 4.11
 direction = 1.575
 height = 0.0
 lean = 0.0
@@ -45,7 +45,7 @@ yaw = 0.0
 pan = Vector2(0, 0)
 local_pan = Vector2(0, 0)
 offset = Vector3(0, 0, 0)
-fov_multiplier = 1.0
+focal_length_multiplier = 2.22
 
 [sub_resource type="Resource" id="Resource_8hept"]
 script = ExtResource("8_ay371")
@@ -78,7 +78,7 @@ yaw = 0.0
 pan = Vector2(0, 0)
 local_pan = Vector2(0, 0)
 offset = Vector3(0, 0, 0)
-fov_multiplier = 1.0
+focal_length_multiplier = 1.0
 
 [sub_resource type="Resource" id="Resource_ebbr8"]
 script = ExtResource("4_ka8sa")
@@ -111,7 +111,7 @@ yaw = 0.0
 pan = Vector2(0, 0.5)
 local_pan = Vector2(0, 0)
 offset = Vector3(0, 0, 0)
-fov_multiplier = 1.0
+focal_length_multiplier = 1.0
 
 [sub_resource type="Resource" id="Resource_ln1lg"]
 script = ExtResource("7_3mpoo")
@@ -236,7 +236,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 [node name="Node3D" type="Node3D" parent="."]
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node", "reference_frame_node")]
-transform = Transform3D(0.124232, 0.09906, -0.987296, 0, 0.995004, 0.0998334, 0.992253, -0.0124025, 0.123611, -1.98512, 1.70397, 0.240375)
+transform = Transform3D(0.393762, -0.0917681, 0.91462, 0, 0.995004, 0.0998334, -0.919212, -0.0393106, 0.391795, 1.83625, 1.70317, 0.791801)
+fov = 69.9999
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")
 reference_frame_node = NodePath("../Node3D")

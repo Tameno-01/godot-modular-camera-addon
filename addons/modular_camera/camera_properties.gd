@@ -24,7 +24,7 @@ extends Resource
 ## How the camrea should be moved after all other settings are applied.
 @export var offset := Vector3.ZERO
 ## What the fov should be multiplied by, this property is multiplicative.
-@export var fov_multiplier: float = 1.0
+@export var focal_length_multiplier: float = 1.0
 
 ## Adds another set of properties to this set of properties.
 func add(properties: CameraProperties):
@@ -38,7 +38,7 @@ func add(properties: CameraProperties):
 	pan += properties.pan
 	local_pan += properties.local_pan
 	offset += properties.offset
-	fov_multiplier *= properties.fov_multiplier
+	focal_length_multiplier *= properties.focal_length_multiplier
 
 ## Interpolates this set of properties to another set of properties.
 func interpolate_to(properties: CameraProperties, t: float):
@@ -52,7 +52,7 @@ func interpolate_to(properties: CameraProperties, t: float):
 	pan = lerp(pan, properties.pan, t)
 	local_pan = lerp(local_pan, properties.local_pan, t)
 	offset = lerp(offset, properties.offset, t)
-	fov_multiplier = lerp(fov_multiplier, properties.fov_multiplier, t)
+	focal_length_multiplier = lerp(focal_length_multiplier, properties.focal_length_multiplier, t)
 
 ## Copies another set of properries to this set of properties 
 func copy_from(properties: CameraProperties):
@@ -66,4 +66,4 @@ func copy_from(properties: CameraProperties):
 	pan = properties.pan
 	local_pan = properties.local_pan
 	offset = properties.offset
-	fov_multiplier = properties.fov_multiplier
+	focal_length_multiplier = properties.focal_length_multiplier
