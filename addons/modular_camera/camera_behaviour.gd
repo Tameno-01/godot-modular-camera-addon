@@ -128,8 +128,8 @@ func _set_override_raycast(value: bool):
 
 func _set_raycast_override(value: CameraRayCastProperties):
 	if raycast_override:
-		raycast_override.disconnect(&"raycast_changed", _emit_raycast_changed_signal)
+		raycast_override.raycast_changed.disconnect(_emit_raycast_changed_signal)
 	raycast_override = value
 	_emit_raycast_changed_signal()
 	if raycast_override:
-		raycast_override.connect(&"raycast_changed", _emit_raycast_changed_signal)
+		raycast_override.raycast_changed.connect(_emit_raycast_changed_signal)

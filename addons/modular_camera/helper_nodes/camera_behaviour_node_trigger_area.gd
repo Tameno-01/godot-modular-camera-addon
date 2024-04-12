@@ -10,19 +10,19 @@ extends Area3D
 
 
 func _ready():
-	connect(&"body_entered", _on_anything_entered)
-	connect(&"area_entered", _on_anything_entered)
-	connect(&"body_exited", _on_anything_exited)
-	connect(&"area_exited", _on_anything_exited)
+	body_entered.connect(_on_anything_entered)
+	area_entered.connect(_on_anything_entered)
+	body_exited.connect(_on_anything_exited)
+	area_exited.connect(_on_anything_exited)
 
 
-func _on_anything_entered(collision_object: CollisionObject3D):
-	if collision_object == player:
+func _on_anything_entered(node: Node3D):
+	if node == player:
 		if camera_behaviour_node:
 			camera_behaviour_node.add_behaviour()
 
 
-func _on_anything_exited(collision_object: CollisionObject3D):
-	if collision_object == player:
+func _on_anything_exited(node: Node3D):
+	if node == player:
 		if camera_behaviour_node:
 			camera_behaviour_node.remove_behaviour()

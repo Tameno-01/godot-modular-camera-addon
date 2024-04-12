@@ -224,10 +224,10 @@ func _update_behaviour(force_ray_cast_update: bool = false):
 			_current_behaviour._base_start(self)
 	if prev_behaviour:
 		prev_behaviour._usage_count -= 1
-		prev_behaviour.disconnect(&"raycast_changed", _behaviour_raycast_changed)
+		prev_behaviour.raycast_changed.disconnect(_behaviour_raycast_changed)
 	if _current_behaviour:
 		_current_behaviour._usage_count += 1
-		_current_behaviour.connect(&"raycast_changed", _behaviour_raycast_changed)
+		_current_behaviour.raycast_changed.connect(_behaviour_raycast_changed)
 	_update_ray_cast()
 
 
@@ -299,23 +299,12 @@ func _interpolate_from(prev_behaviour: CameraBehaviour):
 	else:
 		new_interpolator.behaviourA = prev_behaviour
 	new_interpolator.behaviourB = _current_behaviour
-	new_interpolator.out_interpolation = _current_behaviour.out_interpolation
+	new_interpolator.out_interpolation = prev_behaviour.out_interpolation
 	new_interpolator.interpolation = _get_interpolation(new_interpolator.behaviourA, new_interpolator.behaviourB)
-	new_interpolator.connect(
-				&"finished",
-				_on_interpolator_finished,
-				CONNECT_DEFERRED + CONNECT_ONE_SHOT,
-		)
+	new_interpolator.finished.connect(_on_interpolator_finished, CONNECT_DEFERRED + CONNECT_ONE_SHOT)
 	if _interpolator:
-		_interpolator.disconnect(
-				&"finished",
-				_on_interpolator_finished,
-		)
-		new_interpolator.behaviourA.connect(
-				&"finished",
-				Callable(new_interpolator, &"_on_interpolator_a_finished"),
-				CONNECT_DEFERRED + CONNECT_ONE_SHOT,
-		)
+		_interpolator.finished.disconnect(_on_interpolator_finished)
+		new_interpolator.behaviourA.finished.connect(new_interpolator._on_interpolator_a_finished, CONNECT_DEFERRED + CONNECT_ONE_SHOT)
 	_interpolator = new_interpolator
 	_interpolator._base_start(self)
 
