@@ -61,7 +61,7 @@ modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([]
 priority = 0
 override_target = true
 target_override = Vector3(-2.5, 1, -2)
-override_reference_frame = false
+override_reference_frame = true
 reference_frame_override = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
 override_raycast = true
 raycast_override = SubResource("Resource_8hept")
@@ -234,13 +234,13 @@ mesh = SubResource("CapsuleMesh_fm3vy")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 
 [node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node", "reference_frame_node")]
-transform = Transform3D(-0.921629, 0.0387425, -0.386133, 0, 0.995004, 0.0998334, 0.388072, 0.0920094, -0.917025, -0.781296, 1.70826, -1.84019)
+[node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
+transform = Transform3D(0.578367, 0.0814418, -0.811701, 0, 0.995004, 0.0998334, 0.815777, -0.0577404, 0.575478, -1.63002, 1.70795, 1.15752)
 fov = 80.6556
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")
-reference_frame_node = NodePath("../Node3D")
 default_behaviour = SubResource("Resource_fcvok")
 modifiers = Array[Resource("res://addons/modular_camera/camera_modifier.gd")]([SubResource("Resource_m2i0o")])
 base_focal_length = 1.178
