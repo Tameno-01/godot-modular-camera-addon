@@ -9,7 +9,6 @@ enum INTERPOLATION_TYPES {
 	EASE_IN,
 	EASE_OUT,
 	EASE_IN_OUT,
-	INSTANT,
 	CURVE,
 }
 
@@ -56,8 +55,6 @@ func get_t(time, target: bool = false) -> float:
 			if flip:
 				t = 1.0 - t
 			return t
-		INTERPOLATION_TYPES.INSTANT:
-			return 1.0
 		INTERPOLATION_TYPES.CURVE:
 			if not curve_now:
 				return 0.0

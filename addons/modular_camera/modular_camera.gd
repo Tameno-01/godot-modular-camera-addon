@@ -321,7 +321,6 @@ func _get_interpolation(behaviourA: CameraBehaviour, behaviourB: CameraBehaviour
 		else:
 			var new_interpolation: CameraInterpolation = CameraInterpolation.new()
 			new_interpolation.duration = 0.0
-			new_interpolation.type = CameraInterpolation.INTERPOLATION_TYPES.INSTANT
 			return new_interpolation
 	elif behaviourA.out_interpolation == null:
 		return behaviourB.in_interpolation
