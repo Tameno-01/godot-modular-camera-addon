@@ -26,6 +26,13 @@ var _interpolation_managers: Dictionary = {}
 signal finished
 
 
+func _init():
+	override_target = true
+	override_reference_frame = true
+	# override_target and override_reference_frame aern't read in the ModularCamera script when 
+	# dealing with interpolation, but they ARE read in this script, so this init function IS necessary.
+
+
 func _on_start():
 	_time = 0.0
 	behaviourA._usage_count += 1
@@ -77,8 +84,6 @@ func _process(delta: float):
 	var quatB: Quaternion = reference_frameB.get_rotation_quaternion()
 	var quat: Quaternion = lerp(quatA, quatB, t)
 	reference_frame_override = Basis(quat)
-	if _time >= interpolation.duration:
-		finished.emit()
 	t = interpolation.get_t(_time, true)
 	var targetA: Vector3
 	if behaviourA.override_target:
@@ -91,6 +96,8 @@ func _process(delta: float):
 	else:
 		targetB = camera._get_default_target()
 	target_override = lerp(targetA, targetB, t)
+	if _time >= interpolation.duration:
+		finished.emit()
 
 
 func _on_interpolator_a_finished():

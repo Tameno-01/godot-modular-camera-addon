@@ -310,7 +310,6 @@ func _interpolate_from(prev_behaviour: CameraBehaviour):
 
 
 func _on_interpolator_finished():
-	_current_behaviour = _interpolator.behaviourB
 	_interpolator.end()
 	_interpolator = null
 
