@@ -42,17 +42,17 @@ func add(properties: CameraProperties):
 
 ## Interpolates this set of properties to another set of properties.
 func interpolate_to(properties: CameraProperties, t: float):
-	distance = lerp(distance, properties.distance, t)
+	distance = ModularCameraUtils.log_lerp(distance, properties.distance, t)
 	direction = lerp_angle(direction, properties.direction, t)
-	height = lerp(height, properties.height, t)
-	lean = lerp(lean, properties.lean, t)
-	roll = lerp(roll, properties.roll, t)
-	pitch = lerp(pitch, properties.pitch, t)
-	yaw = lerp(yaw, properties.yaw, t)
+	height = lerp_angle(height, properties.height, t)
+	lean = lerp_angle(lean, properties.lean, t)
+	roll = lerp_angle(roll, properties.roll, t)
+	pitch = lerp_angle(pitch, properties.pitch, t)
+	yaw = lerp_angle(yaw, properties.yaw, t)
 	pan = lerp(pan, properties.pan, t)
 	local_pan = lerp(local_pan, properties.local_pan, t)
 	offset = lerp(offset, properties.offset, t)
-	focal_length_multiplier = lerp(focal_length_multiplier, properties.focal_length_multiplier, t)
+	focal_length_multiplier = ModularCameraUtils.log_lerp(focal_length_multiplier, properties.focal_length_multiplier, t)
 
 ## Copies another set of properries to this set of properties 
 func copy_from(properties: CameraProperties):

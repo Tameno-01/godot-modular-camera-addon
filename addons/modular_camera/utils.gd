@@ -2,6 +2,13 @@ class_name ModularCameraUtils
 extends Object
 
 
+const E = 2.71828
+
+
+static func log_lerp(a: float, b: float, t: float):
+	return pow(E, lerp(log(a), log(b), t))
+
+
 static func repeat_str(input: String, count: int) -> String:
 	var output: String = ""
 	for i in range(count):
