@@ -229,7 +229,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
-transform = Transform3D(-0.586578, -0.0808544, 0.805847, 0, 0.995004, 0.0998334, -0.809893, 0.0585601, -0.583647, 1.62322, 1.69734, -1.16887)
+transform = Transform3D(0.99333, -0.0115116, 0.114732, 0, 0.995004, 0.0998334, -0.115308, -0.0991675, 0.988367, 0.240266, 1.69773, 1.98577)
 fov = 80.6556
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")

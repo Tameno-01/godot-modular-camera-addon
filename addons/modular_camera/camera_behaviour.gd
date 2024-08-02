@@ -14,7 +14,7 @@ signal raycast_changed
 ## The list of modifiers of this behaviour, this should never be touched outside the inspector.
 @export var modifiers: Array[CameraModifier] = []:
 		set = _set_modifers
-## The priority of this behviour, the camera pickes the behaviour with the highest priority.
+## The priority of this behviour, the camera picks the behaviour with the highest priority.
 @export var priority: int = 0
 ## The interpolation used when swicthing to this behaviour.
 @export var in_interpolation: CameraInterpolation
@@ -44,7 +44,7 @@ func _start():
 	_on_start()
 	_output_properties.copy_from(properties)
 	for modifier in modifiers:
-		modifier._base_start(camera)
+		modifier._base_start(get_camera())
 		_output_properties.add(modifier._output_properties)
 
 
@@ -79,7 +79,7 @@ func add_modifier(modifier: CameraModifier):
 		return
 	modifiers.append(modifier)
 	if active:
-		modifier._base_start(camera)
+		modifier._base_start(get_camera())
 
 ## Removes a modifier from the modifiers list.
 func remove_modifier(modifier: CameraBehaviour):
@@ -100,7 +100,7 @@ func _set_modifers(value: Array[CameraModifier]):
 		if not modifier:
 			continue
 		if not _prev_modifiers.has(modifier):
-			modifier._base_start(camera)
+			modifier._base_start(get_camera())
 	for modifier in _prev_modifiers:
 		if not modifier:
 			continue

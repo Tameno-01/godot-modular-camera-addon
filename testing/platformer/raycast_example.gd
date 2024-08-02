@@ -9,7 +9,7 @@ var _ray_cast: RayCast3D
 func _on_start():
 	_ray_cast = RayCast3D.new()
 	# ... set up the ray cast
-	camera.add_child(_ray_cast)
+	get_camera().add_child(_ray_cast)
 
 
 func _process(delta: float):

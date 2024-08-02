@@ -38,7 +38,7 @@ func _on_start():
 	behaviourA._usage_count += 1
 	behaviourB._usage_count += 1
 	if behaviourB._usage_count == 1:
-		behaviourB._base_start(camera)
+		behaviourB._base_start(get_camera())
 	for property in ANGULAR_PROPERTIES:
 		var interpolation_manager: AngleInterpolationManager = AngleInterpolationManager.new()
 		interpolation_manager.start(
@@ -49,7 +49,7 @@ func _on_start():
 	if behaviourA.override_target:
 		target_override = behaviourA.target_override
 	else:
-		target_override = camera._get_default_target()
+		target_override = get_camera()._get_default_target()
 
 
 func _process(delta: float):
@@ -74,12 +74,12 @@ func _process(delta: float):
 	if behaviourA.override_reference_frame:
 		reference_frameA = behaviourA.reference_frame_override
 	else:
-		reference_frameA = camera._get_default_reference_frame()
+		reference_frameA = get_camera()._get_default_reference_frame()
 	var reference_frameB: Basis
 	if behaviourB.override_reference_frame:
 		reference_frameB = behaviourB.reference_frame_override
 	else:
-		reference_frameB = camera._get_default_reference_frame()
+		reference_frameB = get_camera()._get_default_reference_frame()
 	var quatA: Quaternion = reference_frameA.get_rotation_quaternion()
 	var quatB: Quaternion = reference_frameB.get_rotation_quaternion()
 	var quat: Quaternion = lerp(quatA, quatB, t)
@@ -89,12 +89,12 @@ func _process(delta: float):
 	if behaviourA.override_target:
 		targetA = behaviourA.target_override
 	else:
-		targetA = camera._get_default_target()
+		targetA = get_camera()._get_default_target()
 	var targetB: Vector3
 	if behaviourB.override_target:
 		targetB = behaviourB.target_override
 	else:
-		targetB = camera._get_default_target()
+		targetB = get_camera()._get_default_target()
 	target_override = lerp(targetA, targetB, t)
 	if _time >= interpolation.duration:
 		finished.emit()
