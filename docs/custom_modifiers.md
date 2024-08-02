@@ -49,7 +49,7 @@ This modifier will move the camera left and right in a sine wave.
 
 You edit `properties` to control the output of the modifier.
 
-You can also read `camera` to get the `ModularCamera` node this modifier is acting on. Here's an example of how we can use this to do our own ray casts:
+You can also use `get_camera` to get the `ModularCamera` node this modifier is acting on. Here's an example of how we can use this to do our own ray casts:
 
 ```gdscript
 @tool
@@ -63,7 +63,7 @@ var _ray_cast: RayCast3D
 func _on_start():
 	_ray_cast = RayCast3D.new()
 	# ... set up the ray cast
-	camera.add_child(_ray_cast)
+	get_camera().add_child(_ray_cast)
 
 
 func _process(delta: float):
