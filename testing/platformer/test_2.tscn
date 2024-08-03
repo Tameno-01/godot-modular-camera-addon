@@ -202,11 +202,10 @@ camera_behaviour_node = NodePath("CameraBehaviourNode")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, -2)
 shape = SubResource("BoxShape3D_88kwg")
 
-[node name="CameraBehaviourNode" type="Node3D" parent="Level/CameraBehaviourNodeTriggerAera" node_paths=PackedStringArray("camera")]
+[node name="CameraBehaviourNode" type="Node3D" parent="Level/CameraBehaviourNodeTriggerAera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1, -2)
 script = ExtResource("12_xnu0o")
 behaviour = SubResource("Resource_1yh3a")
-camera = NodePath("../../../ModularCamera")
 
 [node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.45058e-09)
@@ -229,7 +228,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
 transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="ModularCamera" type="Camera3D" parent="." node_paths=PackedStringArray("target_node")]
-transform = Transform3D(0.99333, -0.0115116, 0.114732, 0, 0.995004, 0.0998334, -0.115308, -0.0991675, 0.988367, 0.240266, 1.69773, 1.98577)
+transform = Transform3D(-0.190092, -0.0980131, 0.976862, 0, 0.995004, 0.0998334, -0.981766, 0.0189775, -0.189142, 1.96102, 1.70709, -0.389413)
 fov = 80.6556
 script = ExtResource("4_hsbit")
 target_node = NodePath("../Player/camera_target")

@@ -59,11 +59,11 @@ enum reference_frame_modes {
 
 
 var _behaviours: Array[CameraBehaviour] = [] # FP
+var _previewed_behaviour: CameraBehaviour = null # FP
 
 
 var _current_behaviour: CameraBehaviour
 var _interpolator: CameraBehaviourInterpolator = null
-var _previewed_behaviour: CameraBehaviour = null
 var _shape_cast: ShapeCast3D
 var _ray_cast_properties: CameraRayCastProperties
 var _prev_raycast_movement_needed: float
@@ -143,6 +143,15 @@ func get_reference_frame() -> Basis:
 		return _get_default_reference_frame()
 
 
+## Returns the ModularCamera of the viewport this node is in.
+static func get_of(node: Node) -> ModularCamera:
+	var modular_camera: ModularCamera = _find_modular_camera_recursive(node.get_viewport())
+	if not modular_camera:
+		ModularCameraUtils.print_detailed_err("Couldn't find a ModularCamera")
+		return null
+	return modular_camera
+
+
 func _ready():
 	_update_behaviour(true)
 	for modifier in modifiers:
@@ -175,7 +184,7 @@ func _preview_behaviour(behaviour: CameraBehaviour): # FP
 	_update_behaviour()
 
 
-func _stop_previewing_behaviour():
+func _stop_previewing_behaviour(): # FP
 	_previewed_behaviour = null
 	_update_behaviour()
 
@@ -206,6 +215,18 @@ func _get_default_reference_frame() -> Basis: # FP
 		reference_frame_modes.BASIS:
 			return reference_frame_basis
 	return Basis.IDENTITY
+
+
+static func _find_modular_camera_recursive(node: Node) -> ModularCamera:
+	for child: Node in node.get_children():
+		if child is Viewport:
+			continue
+		if child is ModularCamera:
+			return child
+		var modular_camera: ModularCamera = _find_modular_camera_recursive(child)
+		if modular_camera:
+			return modular_camera
+	return null
 
 
 func _update_behaviour(force_ray_cast_update: bool = false):
