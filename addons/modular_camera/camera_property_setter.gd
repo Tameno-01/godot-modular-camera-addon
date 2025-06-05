@@ -38,6 +38,13 @@ func _base_stop(): # FP
 	_stop()
 
 
+func _base_base_input(event: InputEvent):
+	if not active:
+		ModularCameraUtils.print_detailed_err("Trying to input behaviour/modifier, but it is stopped. active will be set to true.")
+		active = true
+	_base_input(event)
+
+
 func _base_base_process(delta: float): # FP
 	if not active:
 		ModularCameraUtils.print_detailed_err("Trying to process behaviour/modifier, but it is stopped. active will be set to true.")
@@ -50,6 +57,14 @@ func _start():
 
 
 func _stop():
+	pass
+
+
+func _base_input(event: InputEvent):
+	pass
+
+
+func _input(event: InputEvent):
 	pass
 
 

@@ -54,6 +54,10 @@ func _stop():
 		modifier._base_stop()
 
 
+func _base_input(event: InputEvent):
+	_input(event)
+
+
 func _base_process(delta: float):
 	_process(delta)
 	_output_properties.copy_from(properties)

@@ -159,6 +159,12 @@ func _ready():
 	_is_ready = true
 
 
+func _input(event: InputEvent):
+	if not _current_behaviour:
+		return
+	_current_behaviour._input(event)
+
+
 func _process(delta: float):
 	if not _current_behaviour:
 		return
